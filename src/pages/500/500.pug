@@ -1,0 +1,15 @@
+extends ../../layouts/main/main.pug
+
+block append scripts
+	script(type='module' src='./index.js')
+
+block content
+	.fix-page
+		.fix-page__text
+			p.fix-page__title 500
+			p.fix-page__title Упс! Что-то пошло не так
+			a.fix-page__link(
+				href='/src/pages/chat/chat.pug'
+			) Вернуться к чатам 
+
+		

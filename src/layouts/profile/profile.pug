@@ -1,0 +1,19 @@
+
+extends ../../layouts/main/main.pug
+
+block append scripts
+		script(type='module' src='/src/layouts/profile/index.js')
+
+block content
+	block variables
+		- var linkBack = '/src/pages/chat/chat.pug'
+	.profile__wrap
+		.profile__side
+			a.profile__back(
+				href=linkBack
+			)
+				img.profile__back-image(
+					src='/static/icons/arrow-left.svg'
+				)
+		.profile__main
+			block profile

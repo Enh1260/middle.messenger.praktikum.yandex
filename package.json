@@ -1,0 +1,20 @@
+{
+  "source": "src/index.pug",
+  "scripts": {
+    "watch": "parcel ",
+    "build": "parcel build src/index.pug src/pages/chat/chat.pug src/pages/500/500.pug src/pages/404/404.pug",
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "@parcel/transformer-pug": "^2.2.1",
+    "@parcel/transformer-sass": "^2.2.1",
+    "express": "^4.17.2",
+    "parcel": "^2.2.1"
+  },
+  "dependencies": {
+    "sass": "^1.49.7"
+  },
+  "engines": {
+    "node": "16.13.0"
+  }
+}

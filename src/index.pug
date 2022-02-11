@@ -1,0 +1,5 @@
+extends ./layouts/main/main.pug
+append scripts
+    script(type='module' src='/src/pages/home/index.js')
+block content
+    include /pages/home/home.pug

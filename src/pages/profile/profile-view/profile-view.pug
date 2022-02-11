@@ -1,0 +1,38 @@
+extends ../../../layouts/profile/profile.pug
+
+block append scripts
+
+block profile
+
+	.profile-view
+		h3.profile__title Личные данные
+		.profile__head
+			.profile__avatar
+			.profile__person
+				.profile__name Иван Иванов
+				.profile__actions
+					a.default-link(
+						href='../profile-edit/profile-edit.pug'
+					) Редактировать профиль
+					a.default-link(
+						href='../password-edit/password-edit.pug'
+					) Сменить пароль
+		form.profile__form
+			.profile__field
+				.profile__label Почта
+				.profile__input pochta@yandex.ru
+			.profile__field
+				.profile__label Логин
+				.profile__input ivanivanov
+			.profile__field
+				.profile__label Имя
+				.profile__input Иван
+			.profile__field
+				.profile__label Фамилия
+				.profile__input Иванов
+			.profile__field
+				.profile__label Имя в чате
+				.profile__input Иван
+			.profile__field
+				.profile__label Телефон
+				.profile__input +7 (909) 967 30 30
