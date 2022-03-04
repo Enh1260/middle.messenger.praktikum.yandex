@@ -1,5 +1,5 @@
 import ProfileEditPage from './profile-edit.ts';
-import renderDOM from '/src/utils/renderDOM.ts';
+import renderDOM from '../../../../utils/renderDom.ts';
 import '/src/styles/profile.scss';
 import '/src/styles/profile-form.scss';
 

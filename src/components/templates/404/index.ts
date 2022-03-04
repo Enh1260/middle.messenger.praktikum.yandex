@@ -1,5 +1,5 @@
 import Page404 from './404.ts';
-import renderDOM from '/src/utils/renderDom.ts';
+import renderDOM from '../../../utils/renderDom.ts';
 import './404.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
