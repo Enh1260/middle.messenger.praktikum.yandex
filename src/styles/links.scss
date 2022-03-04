@@ -1,0 +1,11 @@
+.default-link{
+	color: #216D29;
+	font-family: 'Inter-Medium';
+	font-size: 13px;
+	line-height: 13px;
+	text-decoration: none;
+	cursor: pointer;
+	&:hover{
+		text-decoration: underline;
+	}
+}

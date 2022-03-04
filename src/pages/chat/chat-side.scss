@@ -1,0 +1,93 @@
+.chat-side{
+	width: 20%;
+	height: 100%;
+	border-right: 2px solid #EAEAEA;
+	background-color: #FBFBFB;
+	position: relative;
+}
+.chat-side__header{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+	padding: 7px 12px;
+}
+.chat-side__menu-button{
+	position: relative;
+	&:hover .chat-side__menu-inner{
+		display: flex;
+	}
+}
+.chat-side__menu-inner{
+	position: absolute;
+	top: 0px;
+	left: 12px;
+	display: none;
+	flex-direction: column;
+	padding: 8px 0;
+	background-color: white;
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, .25);
+	border-radius: 8px;
+	list-style-type: none;
+	&:hover{
+/* 		display: flex; */
+	}
+}
+.chat-side__menu-item{
+	padding: 7px 25px 7px 7px;
+	text-decoration: none;
+	&:hover{
+		background-color: #D9F5DC;
+	}
+}
+.chat-side__menu-logout{
+	padding: 7px;
+	border-top: 1px solid #EAEAEA;
+	margin-top: 5px;
+	text-decoration: none;
+	&:hover{
+		background-color: #ffc5c5;
+	}
+}
+.chat-side__menu-link{
+	font-family: 'Inter-Medium';
+	font-size: 12px;
+	line-height: 12px;	
+	text-decoration: none;
+	color: #1E1E1E;	
+}
+.chat-side__button-logout{
+	font-family: 'Inter-Medium';
+	font-size: 12px;
+	line-height: 12px;
+	color: #1E1E1E;
+	border: none;
+	background-color: inherit;
+	cursor: pointer;
+}
+.chat-side__search{
+	padding: 10px;
+
+}
+.chat-side__search-item{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;	
+	border-radius: 5px;
+	padding: 6px 14px;
+	background-color: #EFEFEF;
+}
+.chat-side__search-icon{
+	width: 20px;
+	height: 20px;
+	background-image: url('/static/icons/search.png');
+	background-position: center;
+	background-size: contain;
+	margin-right: 4px;
+}
+.chat-side__search-input{
+	width: auto;
+	background-color: inherit;
+	border: none;
+	outline: none;
+}

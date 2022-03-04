@@ -1,0 +1,16 @@
+extends ../../layouts/main/main.pug
+
+block append scripts
+	script(type='module' src='./index.js')
+
+block content
+	.wrong-page
+		.wrong-page__title 404
+		.wrong-page__title Заблудились?
+		img.wrong-page__img(
+			src='/static/img/404.png'
+			alt='404'
+		)
+		a.wrong-page__link(
+			href='/src/pages/chat/chat.pug'
+		) Вернуться к чатам 

@@ -1,0 +1,26 @@
+.default-button{
+	width: 280px;
+	height: 37px;
+	background-color: #216D29;
+	color: white;
+	line-height: 13px;
+	font-family: 'Inter-Medium';
+	font-size: 13px;
+	border-radius: 8px;
+	border: 1px solid #216D29;
+	box-shadow: 0 4px 4px 0px rgb(0 0 0 / 25%);	
+	transition: .5s;
+	&:hover{
+		background-color: #18501e;
+	}
+}
+.point-button{
+	background-image: url('/static/icons/point-button.svg');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+    width: 15px;
+	height: 15px;
+	cursor: pointer;
+
+}

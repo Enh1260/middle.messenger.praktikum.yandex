@@ -1,0 +1,24 @@
+.home{
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	margin: auto;
+	width: fit-content;
+	height: fit-content;
+	color: #216D29;
+	font-family: 'AmaticSC-Bold';
+	text-align: center;
+}
+.home__subtitle{
+	font-size: 36px;
+}
+.home__title{
+	font-size: 64px;
+}
+.home__actions{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 27px;
+}

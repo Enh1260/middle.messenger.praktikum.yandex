@@ -1,0 +1,27 @@
+extends ../../../layouts/main/main.pug
+
+block append scripts
+	script(type='module' src='../index.js')
+
+block content
+		.auth-form__main
+			.auth-form__inner
+				h3.auth-form__title Авторизация
+				form.auth-form__form
+					.auth-form__field
+						label.auth-form__label Логин
+							input.auth-form__input(
+								placeholder='Логин'
+								name='login'
+							)
+					.auth-form__field
+						label.auth-form__label Пароль
+							input.auth-form__input(
+								type='password'
+								placeholder='Пароль'
+								name='password'
+							)
+					button.default-button.auth-form__button Войти
+				a.default-link(
+					href='../registration/registration.pug'
+				) Нет аккаунта?
