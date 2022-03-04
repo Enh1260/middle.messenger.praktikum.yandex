@@ -1,0 +1,22 @@
+.profile__wrap
+	.profile__side
+		a.profile__back(
+			href=linkBack
+		)
+	.profile__main
+		.profile-view
+			h3.profile__title Личные данные
+			.profile__head
+				.profile__avatar
+				.profile__person
+					.profile__name #{userName}
+					.profile__actions
+						a.default-link(
+							href='/pages/profile/profile-edit/profile-edit.html'
+						) Редактировать профиль
+						a.default-link(
+							href='/pages/profile/password-edit/password-edit.html'
+						) Сменить пароль
+			.profile__form
+				each fieldset in fieldsets
+					|!{fieldset}
