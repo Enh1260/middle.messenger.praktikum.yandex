@@ -1,20 +1,27 @@
 {
-  "source": "src/index.pug",
+  "source": "src/index.html",
+  "type": "module",
   "scripts": {
-    "watch": "parcel ",
-    "build": "parcel build src/index.pug src/pages/chat/chat.pug src/pages/500/500.pug src/pages/404/404.pug",
-    "start": "node server.js"
+    "watch": "parcel  --no-cache",
+    "build": "parcel build src/index.html src/pages/404/404.html src/pages/500/500.html src/pages/profile/password-edit/password-edit.html src/pages/profile/profile-edit/profile-edit.html src/pages/profile/profile-view/profile-view.html src/pages/auth/login/login.html src/pages/auth/registration/registration.html src/pages/chat/chat.html",
+    "start": "npm run build && node server.js",
+    "dev": "parcel src/index.html"
   },
   "devDependencies": {
-    "@parcel/transformer-pug": "^2.2.1",
-    "@parcel/transformer-sass": "^2.2.1",
-    "express": "^4.17.2",
-    "parcel": "^2.2.1"
+    "@parcel/config-default": "2.3.2",
+    "@parcel/transformer-pug": "2.2.1",
+    "@parcel/transformer-sass": "2.3.2",
+    "@typescript-eslint/eslint-plugin": "5.13.0",
+    "@typescript-eslint/parser": "5.13.0",
+    "eslint-config-airbnb": "19.0.4",
+    "express": "4.17.2",
+    "parcel": "2.2.1",
+    "stylelint": "14.5.3",
+    "stylelint-config-standard-scss": "3.0.0"
   },
   "dependencies": {
-    "sass": "^1.49.7"
-  },
-  "engines": {
-    "node": "16.13.0"
+    "parcel-transformer-pug-precompile": "1.0.6",
+    "sass": "1.49.7",
+    "uuid": "8.3.2"
   }
 }

@@ -1,0 +1,19 @@
+.chat-room
+	.chat-room__header
+		.chat-room__header-content
+			.chat__avatar
+			.chat__title
+		.chat-room__header-btn
+	.chat-room__body
+		each chatMessage in chatMessages
+			|!{chatMessage}
+	.chat-room__footer
+		form.chat-room__form
+			.chat-room__add-context
+			textarea(
+				class='chat-room__textarea'
+				name='message'
+				placeholder='Сообщение'
+			)
+			|!{btnSubmit}
+
