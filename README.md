@@ -8,7 +8,7 @@ https://www.figma.com/file/j6k3djL1EfeSs7aVAkSp2Q/Module_1(Chat)?node-id=0%3A1
 https://62059f758a3cbe39d6ddcd29--nostalgic-einstein-4ad06f.netlify.app
 <br>
 <h5>Ссылка на открытый pull request Sprint 2</h5>
-https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/3#issue-1160128175
+https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/4#issue-1160153500
 <h5>Реализованные статические страницы:</h5>
 <ul>
   <li>/pages/auth/login/login.html</li>
