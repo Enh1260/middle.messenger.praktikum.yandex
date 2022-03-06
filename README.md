@@ -6,7 +6,11 @@ https://www.figma.com/file/j6k3djL1EfeSs7aVAkSp2Q/Module_1(Chat)?node-id=0%3A1
 <br>
 <h5>Домен в Netlify</h5>
 https://nostalgic-einstein-4ad06f.netlify.app/
-<h5>Страницы проекта</h5>
+<br>
+<h5>Ссылка на открытый pull request Sprint 2</h5>
+https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/4#issue-1160153500
+<h5>Реализованные статические страницы:</h5>
+
 <ul>
   <li>/pages/auth/login/login.html</li>
   <li>/pages/auth/registration/registration.html</li>
