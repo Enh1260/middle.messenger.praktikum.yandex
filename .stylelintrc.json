@@ -1,0 +1,18 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "color-hex-case": "lower",
+    "selector-class-pattern": "^[a-z][a-z0-9_-]+$"
+  },
+  "ignoreFiles": [
+    "dist/**/**/**/**/*",
+    "static/**/**/**/*",
+    "**/*.md",
+    "**/*.ts",
+    "**/*.js",
+    "**/*.json",
+    "**/*.toml",
+    "**/*.pug",
+    "**/*.html"
+  ]
+}

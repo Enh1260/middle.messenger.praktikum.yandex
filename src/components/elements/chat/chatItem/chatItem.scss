@@ -1,0 +1,58 @@
+.chat-item {
+  &:hover {
+    background-color: #d9f5dc;
+    cursor: pointer;
+  }
+}
+
+.chat-item__title {
+  color: #1e1e1e;
+  font-family: Inter-Bold, sans-serif;
+  font-size: 13px;
+  line-height: 13px;
+}
+
+.chat-item__content {
+  display: flex;
+  width: 100%;
+}
+
+.chat-item__text {
+  color: #999;
+  font-family: Inter-Medium, sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.chat-item__left-side {
+  display: flex;
+  width: 80%;
+}
+
+.chat-item__right-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: center;
+  width: 20%;
+}
+
+.chat-item__date {
+  color: #999;
+  font-family: Inter-Medium, sans-serif;
+  font-size: 9px;
+  line-height: 12px;
+}
+
+.chat-item__unseen {
+  background-color: #216d29;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: Inter-Medium, sans-serif;
+  font-size: 11px;
+}

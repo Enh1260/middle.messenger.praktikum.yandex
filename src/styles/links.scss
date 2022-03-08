@@ -1,11 +1,12 @@
-.default-link{
-	color: #216D29;
-	font-family: 'Inter-Medium';
-	font-size: 13px;
-	line-height: 13px;
-	text-decoration: none;
-	cursor: pointer;
-	&:hover{
-		text-decoration: underline;
-	}
+.default-link {
+  color: #216d29;
+  font-family: Inter-Medium, sans-serif;
+  font-size: 13px;
+  line-height: 13px;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
