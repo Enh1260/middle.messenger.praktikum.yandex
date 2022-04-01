@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "watch": "parcel  --no-cache",
-    "build": "parcel build src/index.html src/pages/404/404.html src/pages/500/500.html src/pages/profile/password-edit/password-edit.html src/pages/profile/profile-edit/profile-edit.html src/pages/profile/profile-view/profile-view.html src/pages/auth/login/login.html src/pages/auth/registration/registration.html src/pages/chat/chat.html",
+    "build": "parcel build src/index.html" ,
     "start": "npm run build && node server.js",
     "dev": "parcel src/index.html",
     "test": "cross-env NODE_ENV=test mocha --require babel-register.js --require mocks.js"
