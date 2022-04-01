@@ -1,10 +1,10 @@
 import ProfileViewPage from './profile-view.ts';
-import renderDOM from '../../../../utils/renderDom.ts';
+import { connect } from '/src/utils/connect.ts';
 import '/src/styles/profile.scss';
 import '/src/styles/profile-form.scss';
-import '/src/styles/index.scss';
 
-document.addEventListener('DOMContentLoaded', () => {
-  const profileViewPage = new ProfileViewPage();
-  renderDOM('#app', profileViewPage);
+const withStore = (state) => ({
+  currentUser: state.currentUser,
 });
+
+export default connect(withStore)(ProfileViewPage);

@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .auth-form__main {
   display: flex;
   position: absolute;
@@ -53,11 +55,11 @@
   font-size: 20px;
   margin-bottom: 35px;
   font-family: Inter-Medium, sans-serif;
-  color: #1e1e1e;
+  color: $black-base;
 }
 
 .auth-form__label {
-  color: #999;
+  color: $grey-text;
   font-size: 9px;
   line-height: 9px;
   font-family: Inter-Medium, sans-serif;
@@ -74,10 +76,10 @@
   outline: none;
   font-family: Inter-Medium, sans-serif;
   font-size: 13px;
-  color: #1e1e1e;
+  color: $black-base;
 
   &:focus {
-    border-bottom: 1px solid #216d29;
+    border-bottom: 1px solid $green-base;
   }
 }
 
@@ -85,7 +87,6 @@
   font-family: Inter-Regular, sans-serif;
   font-size: 8px;
   line-height: 8px;
-  visibility: hidden;
   color: #ff2f2f;
 }
 

@@ -1,3 +1,5 @@
+@import "/src/styles/variables";
+
 .profile__field {
   width: 100%;
   display: flex;
@@ -11,7 +13,7 @@
   font-family: Inter-Medium, sans-serif;
   font-size: 13px;
   line-height: 13px;
-  color: #1e1e1e;
+  color: $black-base;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -25,5 +27,5 @@
   font-size: 13px;
   line-height: 13px;
   font-family: Inter-Medium, sans-serif;
-  color: #1e1e1e;
+  color: $black-base;
 }

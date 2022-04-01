@@ -1,3 +1,5 @@
+@import "/src/styles/variables";
+
 .chat-side {
   width: 20%;
   height: 100%;
@@ -14,7 +16,7 @@
   padding: 7px 12px;
 }
 
-.chat-side__menu-inner {
+.chat__menu-inner {
   position: absolute;
   top: 0;
   left: 12px;
@@ -28,15 +30,15 @@
   z-index: 5;
 }
 
-.chat-side__menu-button {
+.chat__menu-button {
   position: relative;
 
-  &:hover .chat-side__menu-inner {
+  &:hover .chat__menu-inner {
     display: flex;
   }
 }
 
-.chat-side__menu-item {
+.chat__menu-item {
   padding: 7px 25px 7px 7px;
   text-decoration: none;
 
@@ -45,7 +47,7 @@
   }
 }
 
-.chat-side__menu-logout {
+.chat__menu-logout {
   padding: 7px;
   border-top: 1px solid #eaeaea;
   margin-top: 5px;
@@ -56,19 +58,19 @@
   }
 }
 
-.chat-side__menu-link {
+.chat__menu-link {
   font-family: Inter-Medium, sans-serif;
   font-size: 12px;
   line-height: 12px;
   text-decoration: none;
-  color: #1e1e1e;
+  color: $black-base;
 }
 
-.chat-side__button-logout {
+.chat__button-logout {
   font-family: Inter-Medium, sans-serif;
   font-size: 12px;
   line-height: 12px;
-  color: #1e1e1e;
+  color: $black-base;
   border: none;
   background-color: inherit;
   cursor: pointer;
@@ -84,7 +86,7 @@
   align-items: center;
   border-radius: 5px;
   padding: 6px 14px;
-  background-color: #efefef;
+  background-color: $grey-bg;
 }
 
 .chat-side__search-icon {

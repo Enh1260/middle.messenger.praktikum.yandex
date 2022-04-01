@@ -1,3 +1,5 @@
+@import "/src/styles/variables";
+
 .home {
   position: absolute;
   top: 0;
@@ -7,7 +9,7 @@
   margin: auto;
   width: fit-content;
   height: fit-content;
-  color: #216d29;
+  color: $green-base;
   font-family: AmaticSC-Bold, sans-serif;
   text-align: center;
 }

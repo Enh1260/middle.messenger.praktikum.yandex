@@ -1,19 +1,30 @@
 .chat-room
-	.chat-room__header
-		.chat-room__header-content
-			.chat__avatar
-			.chat__title
-		.chat-room__header-btn
-	.chat-room__body
-		each chatMessage in chatMessages
-			|!{chatMessage}
-	.chat-room__footer
-		form.chat-room__form
-			.chat-room__add-context
-			textarea(
-				class='chat-room__textarea'
-				name='message'
-				placeholder='Сообщение'
-			)
-			|!{btnSubmit}
-
+	if currentChat && Object.keys(currentChat).length > 0
+		.chat-room__header
+			|!{popupAddUser}
+			|!{popupDeleteUser}
+			|!{popupDeleteChat}
+			.chat-room__header-content
+				.chat__avatar
+				.chat__title #{currentChat.title}
+			.point-button.chat-room__menu-button
+				ul.chat-room__menu-inner
+					li.chat__menu-item
+						|!{btnAddUser}
+					li.chat__menu-item
+						|!{btnDeleteUser}
+					li.chat__menu-item
+						|!{btnDeleteChat}		
+		
+		|!{chatWindow}
+		.chat-room__footer
+			form.chat-room__form
+				.chat-room__add-context
+				textarea(
+					class='chat-room__textarea'
+					name='message'
+					placeholder='Сообщение'
+				)
+				|!{btnSubmit}
+	else
+		| Choose chat

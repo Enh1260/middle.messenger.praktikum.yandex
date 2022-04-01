@@ -1,15 +1,16 @@
+@import "src/styles/variables";
+
 .chat-item {
+  padding: 13px 10px;
+
   &:hover {
     background-color: #d9f5dc;
     cursor: pointer;
   }
 }
 
-.chat-item__title {
-  color: #1e1e1e;
-  font-family: Inter-Bold, sans-serif;
-  font-size: 13px;
-  line-height: 13px;
+.chat-item__body {
+  display: flex;
 }
 
 .chat-item__content {
@@ -22,18 +23,20 @@
   font-family: Inter-Medium, sans-serif;
   font-size: 12px;
   line-height: 12px;
+  margin-top: 6px;
 }
 
 .chat-item__left-side {
   display: flex;
   width: 80%;
+  flex-direction: column;
 }
 
 .chat-item__right-side {
   display: flex;
   flex-direction: column;
   justify-content: right;
-  align-items: center;
+  align-items: flex-end;
   width: 20%;
 }
 
@@ -45,7 +48,7 @@
 }
 
 .chat-item__unseen {
-  background-color: #216d29;
+  background-color: $green-base;
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -55,4 +58,14 @@
   color: white;
   font-family: Inter-Medium, sans-serif;
   font-size: 11px;
+  margin: 6px 0;
+}
+
+.chat-item__remove-btn {
+  background-image: url("/static/icons/arrow-down.svg");
+  width: 16px;
+  height: 8px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
