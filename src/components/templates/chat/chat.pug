@@ -1,23 +1,29 @@
 .chat
+	|!{popup}
+	|!{popupCreateChat}
 	.chat__inner
-		.chat-side
+		.chat-side 
+			|!{btnCreateChat} 
 			.chat-side__header
-				.chat__avatar
-				.point-button.chat-side__menu-button
-					ul.chat-side__menu-inner
-						li.chat-side__menu-item
-							a.chat-side__menu-link(
-								href='/pages/profile/profile-view/profile-view.html'
-							) Профиль
-						li.chat-side__menu-logout
-							button.chat-side__button-logout Выйти
+				img(
+					src=currentUser.avatar
+					class='chat__avatar'
+				)
+				.chat-side__name 
+					|#{currentUser.display_name}
+				.point-button.chat__menu-button
+					ul.chat__menu-inner
+						li.chat__menu-item
+							|!{linkProfile}
+						li.chat__menu-logout
+							|!{btnLogout}
 			.chat-side__search
 				.chat-side__search-item
 					.chat-side__search-icon
 					input.chat-side__search-input(
 						placeholder='Поиск'
 					)
-			|!{chatsList}
 			.side__chat-list
+				|!{chatsList} 
 		.chat-main
 			|!{chatRoom}

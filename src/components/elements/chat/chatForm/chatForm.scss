@@ -23,7 +23,7 @@
   padding: 6px;
   height: 32px;
   border-radius: 30px;
-  background-color: #efefef;
+  background-color: $grey-bg;
 }
 
 .chat-room__submit {
@@ -31,7 +31,7 @@
   border: none;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #216d29;
+  background-color: $green-base;
   border-radius: 50%;
   width: 28px;
   height: 28px;

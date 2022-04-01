@@ -1,4 +1,9 @@
 import ChatMessage from './chatMessage.ts';
 import './chatMessage.scss';
+import { connect } from '/src/utils/connect.ts';
 
-export default ChatMessage;
+const withStore = (state) => ({
+  currentUserId: state.currentUser.id,
+});
+
+export default connect(withStore)(ChatMessage);

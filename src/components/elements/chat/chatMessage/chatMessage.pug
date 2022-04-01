@@ -1,5 +1,11 @@
-.chat-message
-	.chat-message__body
-		.chat-message__text #{messageText}
-		.chat-message__date #{messageDate}
+if isItself
+	.chat-message.message-right
+		.chat-message__body.message-self
+			.chat-message__text #{content}
+			.chat-message__date #{time}
+else
+	.chat-message
+		.chat-message__body
+			.chat-message__text #{content}
+			.chat-message__date #{time}	
 		

@@ -13,26 +13,27 @@ type Options = {
 }
 
 class HTTPTransport {
-  public get = (url: string, options: Options = {}): void => {
-    const stringifyUrl: string = url + queryStringify(options.data);
+  constructor(url: string) {
+    this.basePath = url;
+  }
+
+  public get = (url: string, options: Options = {}): Promise<TResponse> => {
+    const stringifyUrl: string = this.basePath + url + this.queryStringify(options.data);
 
     return this.request(stringifyUrl, { ...options, method: METHODS.GET });
   };
 
-  public post = (url: string, options: Options = {}): () => Promise<TResponse> => {
-    this.request(url, { ...options, method: METHODS.POST });
-  };
+  public post = (url: string, options: Options = {}): () => Promise<TResponse> =>
+    this.request(this.basePath + url, { ...options, method: METHODS.POST });
 
-  public put = (url: string, options: Options = {}): void => {
-    this.request(url, { ...options, method: METHODS.PUT });
-  };
+  public put = (url: string, options: Options = {}): Promise<TResponse> =>
+    this.request(this.basePath + url, { ...options, method: METHODS.PUT });
 
-  public delete = (url: string, options: Options = {}): void => {
-    this.request(url, { ...options, method: METHODS.DELETE });
-  };
+  public delete = (url: string, options: Options = {}): Promise<TResponse> =>
+    this.request(this.basePath + url, { ...options, method: METHODS.DELETE });
 
   private queryStringify = (data: Record<string, number | string>): string | void => {
-    if (!data) return '?';
+    if (!data) return '';
     return `?${Object.entries(data)
       .map((arr) => `${arr[0]}=${arr[1]}`)
       .join('&')}`;
@@ -44,15 +45,17 @@ class HTTPTransport {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
+      xhr.responseType = 'json';
 
-      if (headers) xhr.setRequestHeader(headers);
+      if (!headers) {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+      }
 
       xhr.onload = function () {
         resolve(xhr);
       };
 
       const handleError = (err) => {
-        console.log(err);
         reject(err);
       };
 
@@ -61,6 +64,8 @@ class HTTPTransport {
         handleError(err);
       };
 
+      xhr.withCredentials = true;
+
       xhr.onabort = handleError;
       xhr.onerror = handleError;
       xhr.ontimeout = handleTimeout;
@@ -68,7 +73,7 @@ class HTTPTransport {
       if (method === METHODS.GET || !data) {
         xhr.send();
       } else {
-        console.log(JSON.stringify(data));
+        xhr.send(data);
       }
     });
   }

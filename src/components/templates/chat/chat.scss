@@ -1,3 +1,5 @@
+@import "/src/styles/variables";
+
 .chat {
   height: 100vh;
   width: 100vw;
@@ -13,5 +15,38 @@
   height: 47px;
   width: 47px;
   border-radius: 50%;
-  background-color: #efefef;
+  background-color: $grey-bg;
+}
+
+.chat__title {
+  color: $black-base;
+  font-family: Inter-Bold, sans-serif;
+  font-size: 13px;
+}
+
+.chat__menu-btn {
+  font-family: Inter-Medium, sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+  text-decoration: none;
+  color: $black-base;
+  border: none;
+  background-color: inherit;
+  width: fit-content;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.chat__button-add-chat {
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-image: url("/static/icons/add-message.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }

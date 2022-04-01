@@ -1,9 +1,11 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './eventBus.ts';
+import cloneDeep from './cloneDeep.ts';
 
 class Block {
   static EVENTS = {
     INIT: 'init',
+    INIT_CHLD: 'init-children',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
     FLOW_RENDER: 'flow:render',
@@ -17,29 +19,24 @@ class Block {
     this.children = children;
 
     this.props = this.__makePropsProxy({ ...props, __id: this.__id });
-    this.initChildren();
 
     this.eventBus = () => eventBus;
 
     this.__registerEvents(eventBus);
-    eventBus.emit(Block.EVENTS.INIT);
     eventBus.emit(Block.EVENTS.FLOW_CDM);
+    eventBus.emit(Block.EVENTS.INIT_CHLD);
     eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   private __registerEvents(eventBus) {
-    eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
+    eventBus.on(Block.EVENTS.INIT_CHLD, this.initChildren.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this.__componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this.__componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this.__render.bind(this));
   }
 
-  private init():void {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
-  }
-
   protected initChildren(): void {
-    return true;
+    //   return true;
   }
 
   private __componentDidMount():void {
@@ -64,25 +61,28 @@ class Block {
   }
 
   protected dispatchComponentDidMount() {
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+  //  this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
   private __componentDidUpdate(oldProps, newProps):boolean {
     const response = this.componentDidUpdate(oldProps, newProps);
-    return response;
+    if (response) {
+      return;
+    }
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  //  return response;
   }
 
   protected componentDidUpdate(oldProps, newProps): boolean {
-    return oldProps !== newProps;
+    return oldProps === newProps;
   }
 
   protected setProps:void = (nextProps) => {
     if (!nextProps) {
       return;
     }
-
-    Object.assign(this.props, nextProps);
-    this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+    this.props = cloneDeep(nextProps);
+    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   };
 
   get element() {
@@ -101,22 +101,22 @@ class Block {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName) => {
-      this.__element.removeEventListener(eventName, events[eventName].bind(this));
+      this.__element!.removeEventListener(eventName, events[eventName].bind(this));
     });
   }
 
   private __render(): void {
+    this.eventBus().emit(Block.EVENTS.INIT_CHLD);
     const fragment = this.render();
+
     const htmlElement = fragment.firstElementChild as HTMLElement;
-
-    if (this.__element) this._removeEvents();
-
+    if (this.__element) this.__removeEvents();
     if (this.__element) {
       this.__element.replaceWith(htmlElement);
+      this.__element = htmlElement;
     } else {
       this.__element = htmlElement;
     }
-
     this.__addEvents();
   }
 
@@ -125,10 +125,16 @@ class Block {
   }
 
   public getContent(): HTMLElement {
-    return this.element;
+    return this.__element;
+  }
+
+  public createChildren(nameChildren, component, props) {
+    if (!props) return;
+    this.children[nameChildren] = this.createBlocks(props, component);
   }
 
   public createBlocks(data, Cnstr:Block): [Block] {
+    if (!data) return [];
     const arr:Array = [];
     data.forEach((item) => {
       const newCnstr:(Block) = new Cnstr(item);
@@ -147,9 +153,7 @@ class Block {
       },
       set: (target, prop, value) => {
         target[prop] = value;
-        if (this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target[prop], value })) {
-          this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-        }
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target[prop], ...value });
         return true;
       },
       deleteProperty: () => {
@@ -187,6 +191,7 @@ class Block {
 
   public compile(template: (locals) => string, locals: number | string | object): HTMLElement {
     const propsAndChildren = locals;
+
     Object.entries(this.children).forEach(([key, child]) => {
       if (Array.isArray(child)) {
         propsAndChildren[key] = child.map((ch) => `<div data-id="id-${ch.__id}"></div>`);
@@ -198,7 +203,6 @@ class Block {
     const fragment:DocumentFragment = this.__createDocumentElement('template');
 
     const htmlString: string = template(propsAndChildren);
-
     fragment.innerHTML = htmlString;
 
     Object.values(this.children).forEach((child) => {

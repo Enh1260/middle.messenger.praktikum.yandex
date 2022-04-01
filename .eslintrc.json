@@ -6,6 +6,11 @@
     "no-shadow": "off",
     "max-len": [2, 100],
     "linebreak-style": ["error", "windows"],
+    "no-constructor-return": 0,
+    "implicit-arrow-linebreak": 0,
+    "prefer-regex-literals": 0,
+    "import/no-named-default": 0,
+    "new-cap": ["error", { "newIsCap": false }],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "no-param-reassign": ["error", { "props": false }],
 
