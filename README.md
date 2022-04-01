@@ -12,14 +12,14 @@ https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/4#issue-116015
 <h5>Реализованные статические страницы:</h5>
 
 <ul>
-  <li>/pages/auth/login/login.html</li>
-  <li>/pages/auth/registration/registration.html</li>
-  <li>/pages/chat/chat.html</li>
-  <li>/pages/profile/profile-view/profile-view.html</li>
-  <li>/pages/profile/profile-edit/profile-edit.html</li>
-  <li>/pages/profile/password-edit/password-edit.html</li>
-  <li>/pages/404/404.html</li>
-  <li>/pages/500/500.html</li>
+  <li>/pages/auth/sign-in</li>
+  <li>/pages/auth/sign-up</li>
+  <li>/pages/chat/messenger</li>
+  <li>/pages/profile/settings</li>
+  <li>/pages/profile/profile-edit</li>
+  <li>/pages/profile/password-edit</li>
+  <li>/pages/404</li>
+  <li>/pages/500</li>
 </ul>
 <br>
 <h5>Добавлено в проект</h5>
@@ -27,6 +27,8 @@ https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/4#issue-116015
   <li>реализован класс для работы с запросами</li>
   <li>проект разбит на компоненты</li>
   <li>добавлена валидация форм</li>
+  <li>добавлен роутер</li>
+  <li>добавлены тесты mocha chai</li>
   <li>использован ESLint с конфигурацией airbnb</li>
   <li>использован StyleLint с конфигурацией stylelint-config-standard-scss</li>
 </ul>
@@ -35,3 +37,4 @@ https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/4#issue-116015
   "npm run watch" - запуск сервера бандлера Parcel для разработки<br>
   "npm run start" - запуск node.js express для раздачи статики<br>
   "npm run build" - сборка проекта<br>
+  "npm run test" - запуск тестов проекта<br>
