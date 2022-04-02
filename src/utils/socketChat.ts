@@ -1,5 +1,5 @@
 import store from '/src/store/store.ts';
-import cloneDeep from '/src/utils/cloneDeep.ts';
+import { cloneDeep } from '/src/utils/cloneDeep.ts';
 
 type SocketOptions = {
   userId: string

@@ -8,6 +8,7 @@ import AuthController from '/src/controllers/Auth.controller.ts';
 import ChatsController from '/src/controllers/Chats.controller.ts';
 import Form from '/src/components/elements/form/index.ts';
 import Link from '/src/components/elements/link/index.ts';
+import Input from '/src/components/elements/input/index.ts';
 
 class ChatPage extends Block {
   constructor(props) {
@@ -25,34 +26,32 @@ class ChatPage extends Block {
   }
 
   initChildren() {
-    const fieldsetInputAddChat = [
-      {
-        formFieldClassName: 'auth-form__field',
-        labelClassName: 'auth-form__label',
-        text: 'Название чата',
-        inputProps: {
-          className: 'auth-form__input',
-          placeholder: 'Имя',
-          name: 'title',
-        },
-      },
-    ];
     const formCreateChat = new Form({
+      className: 'auth-form__form',
+      btnSubmit: {
+        className: 'default-button',
+        textBtn: 'Создать',
+      },
       events: {
         submit(event) {
           event.preventDefault();
           const data = JSON.stringify(this.getFormData());
           ChatsController.create(data);
+          ChatsController.requestAll();
         },
       },
-      httpOptions: {
-        url: 'registration',
-        method: 'post',
-      },
-      formClassName: 'auth-form__form',
-      propsFieldsetInputs: fieldsetInputAddChat,
-      textBtn: 'Создать',
+      contentProps: [
+        {
+          component: Input,
+          props: {
+            className: 'auth-form__input',
+            placeholder: 'Имя',
+            name: 'title',
+          },
+        },
+      ],
     });
+
     this.children.linkProfile = new Link({
       text: 'Профиль',
       href: '/settings',

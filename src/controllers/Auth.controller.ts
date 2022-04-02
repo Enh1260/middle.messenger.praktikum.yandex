@@ -1,30 +1,42 @@
-import AuthApi, { RegistrationData, LoginData } from '/src/api/auth.api.ts';
-import router from '/src/router/index.ts';
+import AuthApi, { RegistrationData, LoginData, GetUserResponse } from '/src/api/auth.api.ts';
 import store from '/src/store/store.ts';
+import router from '/src/router/index.ts';
 
 class AuthController {
-  public static async registration(postData: RegistrationData) {
-    await AuthApi.registration(postData);
-    router.go('/sign-in');
+  constructor()
+
+  public async registration(postData: RegistrationData): Promise<void> {
+    const response = await AuthApi.registration(postData);
+    if (response.status === 200) {
+      router.go('/messenger');
+    }
   }
 
-  public static async login(postData: LoginData) {
+  public async login(postData: LoginData): Promise<void> {
     await AuthApi.login(postData);
     router.go('/messenger');
-    await AuthController.getUser();
+    await this.getUser();
   }
 
-  public static async logout() {
+  public async logout(): Promise<void> {
     await AuthApi.logout();
     router.go('/');
   }
 
-  public static async getUser() {
+  public async checkAuth(): Promise<boolean> {
+    const response = await AuthApi.getUser();
+    return response.status === 200;
+  }
+
+  public async getUser(): Promise<GetUserResponse> {
     const user = await AuthApi.getUser();
     const data = user.response;
-    data.avatar = `https://ya-praktikum.tech/api/v2/resources${user.response.avatar}`;
+    if (user.response.avatar) {
+      data.avatar = `https://ya-praktikum.tech/api/v2/resources${user.response.avatar}`;
+    }
     store.set('currentUser', data);
+    return user;
   }
 }
 
-export default AuthController;
+export default new AuthController();

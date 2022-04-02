@@ -6,22 +6,26 @@ import UserApi, {
 import AuthController from './Auth.controller.ts';
 
 class UserController {
-  public static async updateUser(postData: UserPostData) {
+  constructor() {
+    return this;
+  }
+
+  public async updateUser(postData: UserPostData): Promise<void> {
     await UserApi.updateUser(postData);
     AuthController.getUser();
   }
 
-  public static async updatePassword(postData: UserPasswordPostData) {
+  public async updatePassword(postData: UserPasswordPostData): Promise<void> {
     await UserApi.updatePassword(postData);
   }
 
-  public static async updateAvatar(postData: Blob) {
+  public async updateAvatar(postData: Blob): Promise<void> {
     await UserApi.updateAvatar(postData);
   }
 
-  public static async search(postData: UserSearchPostData) {
+  public async search(postData: UserSearchPostData): Promise<void> {
     await UserApi.search(postData);
   }
 }
 
-export default UserController;
+export default new UserController();

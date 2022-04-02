@@ -7,6 +7,7 @@ import Form from '/src/components/elements/form/index.ts';
 import Input from '/src/components/elements/input/input.ts';
 import ChatWindow from '/src/components/elements/chat/chatWindow/index.ts';
 import SocketChat from '/src/utils/socketChat.ts';
+import store from '/src/store/store.ts';
 
 const searchInputProps = {
   className: 'auth-form__input',
@@ -73,13 +74,14 @@ const btnSubmitProps: {
     },
   },
 };
+
 class ChatRoom extends Block {
   openPopup(popupComponentName) {
     this.children[popupComponentName].show();
   }
 
   initChildren() {
-    if (this.props.currentChat && Object.keys(this.props.currentChat).length) {
+    if (this.props.currentChat) {
       this.children.chatWindow = new ChatWindow();
       this.children.btnAddUser = new Button(btnAddUserProps);
       this.children.btnAddUser.eventBus().on('openPopup', this.openPopup.bind(this));
@@ -108,6 +110,7 @@ class ChatRoom extends Block {
             submit(event) {
               event.preventDefault();
               const data = this.getFormData();
+
               ChatsController.addUsers(JSON.stringify({
                 users: [data.users],
                 chatId: this.props.currentChat.id,
@@ -153,15 +156,19 @@ class ChatRoom extends Block {
             textBtn: 'Удалить чат',
           },
           events: {
-            submit(event) {
+            async submit(event) {
               event.preventDefault();
-              ChatsController.deleteChat(JSON.stringify({
+              await ChatsController.deleteChat(JSON.stringify({
                 chatId: this.props.currentChat.id,
               }));
+              ChatsController.requestAll();
+              store.set('currentChat', null);
             },
           },
         }),
       });
+    } else {
+      this.children = {};
     }
   }
 

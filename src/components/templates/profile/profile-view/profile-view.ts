@@ -7,7 +7,8 @@ import AuthController from '/src/controllers/Auth.controller.ts';
 import BackPage from '/src/components/elements/backPage/index.ts';
 
 class ProfileViewPage extends Block {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     AuthController.getUser();
   }
 

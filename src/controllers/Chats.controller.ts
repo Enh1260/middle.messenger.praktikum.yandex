@@ -3,36 +3,41 @@ import ChatsApi, {
   ChatsUsersPostData,
   ChatsDeletePostData,
   ChatsGetTokenPostData,
+  GetTokenResponce,
 } from '/src/api/chats.api.ts';
 import store from '/src/store/store.ts';
 
 class ChatsController {
-  public static async create(postData: ChatsPostData) {
-    ChatsApi.create(postData);
-    ChatsController.requestAll();
+  constructor() {
+    return this;
   }
 
-  public static async requestAll() {
+  public async create(postData: ChatsPostData): Promise<void> {
+    ChatsApi.create(postData);
+    this.requestAll();
+  }
+
+  public async requestAll(): Promise<void> {
     const chats = await ChatsApi.request();
     store.set('chats', chats.response);
   }
 
-  public static async requestToken(postData: ChatsGetTokenPostData) {
+  public async requestToken(postData: ChatsGetTokenPostData): Promise<GetTokenResponce[]> {
     const token = await ChatsApi.requestToken(postData);
     return token;
   }
 
-  public static async addUsers(postData: ChatsUsersPostData) {
+  public async addUsers(postData: ChatsUsersPostData): Promise<void> {
     await ChatsApi.addUsers(postData);
   }
 
-  public static async deleteUsers(postData: ChatsUsersPostData) {
+  public async deleteUsers(postData: ChatsUsersPostData): Promise<void> {
     await ChatsApi.deleteUsers(postData);
   }
 
-  public static async deleteChat(postData: ChatsDeletePostData) {
+  public async deleteChat(postData: ChatsDeletePostData): Promise<void> {
     await ChatsApi.deleteChat(postData);
   }
 }
 
-export default ChatsController;
+export default new ChatsController();

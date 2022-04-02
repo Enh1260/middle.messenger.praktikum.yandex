@@ -10,6 +10,8 @@
     "implicit-arrow-linebreak": 0,
     "prefer-regex-literals": 0,
     "import/no-named-default": 0,
+    "import/prefer-default-export": 0,
+    "no-restricted-syntax": 0,
     "new-cap": ["error", { "newIsCap": false }],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "no-param-reassign": ["error", { "props": false }],

@@ -1,4 +1,4 @@
-import Router from './router.ts';
+import ProtectRouter from './protectRouter.ts';
 import HomePage from '/src/components/templates/home/index.ts';
 import LoginPage from '/src/components/templates/login/index.ts';
 import RegistrationPage from '/src/components/templates/registration/index.ts';
@@ -9,16 +9,16 @@ import PasswordEditPage from '/src/components/templates/profile/password-edit/in
 import Page404 from '/src/components/templates/404/index.ts';
 import Page500 from '/src/components/templates/500/index.ts';
 
-const router = new Router('#app');
+const router = new ProtectRouter('#app');
 
 router
   .use('/', HomePage)
   .use('/sign-in', LoginPage)
   .use('/sign-up', RegistrationPage)
-  .use('/messenger', ChatPage)
-  .use('/settings', ProfileViewPage)
-  .use('/settings-edit', ProfileEditPage)
-  .use('/settings-password', PasswordEditPage)
+  .use('/messenger', ChatPage, { isAuth: true })
+  .use('/settings', ProfileViewPage, { isAuth: true })
+  .use('/settings-edit', ProfileEditPage, { isAuth: true })
+  .use('/settings-password', PasswordEditPage, { isAuth: true })
   .use('/404', Page404)
   .use('/500', Page500)
   .start();

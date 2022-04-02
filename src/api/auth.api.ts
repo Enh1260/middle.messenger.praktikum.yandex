@@ -1,4 +1,3 @@
-import BaseApi from './base-api.ts';
 import HTTPTransport from '/src/utils/HTTPTransport.ts';
 
 const authApiInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2/auth');
@@ -18,21 +17,40 @@ export interface LoginData{
   password: string;
 }
 
-class AuthApi extends BaseApi {
-  public static async registration(postData: RegistrationData) {
+interface RegistrationResponse{
+  id: number;
+}
+
+export interface GetUserResponse{
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string;
+}
+
+class AuthApi {
+  constructor() {
+    return this;
+  }
+
+  public async registration(postData: RegistrationData): Promise<RegistrationResponse> {
     return authApiInstance.post('/signup', { data: postData });
   }
 
-  public static async login(postData: LoginData) {
+  public async login(postData: LoginData): Promise<string> {
     return authApiInstance.post('/signin', { data: postData });
   }
 
-  public static async logout() {
+  public async logout(): Promise<string> {
     return authApiInstance.post('/logout');
   }
 
-  public static async getUser() {
+  public async getUser(): Promise<GetUserResponse> {
     return authApiInstance.get('/user');
   }
 }
-export default AuthApi;
+export default new AuthApi();

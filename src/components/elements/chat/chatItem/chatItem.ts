@@ -19,18 +19,12 @@ class ChatItem extends Block {
 
   async openChat(): void {
     const tokenData = await ChatsController.requestToken(this.props.id);
-    //  currentChat.token = tokenData.token;
-    // const socket = new SocketChat
+
     SocketChat.connect({
       userId: this.props.userId,
       chatId: this.props.id,
       token: tokenData.token,
     });
-    /*    connectChat({
-      userId: this.props.userId,
-      chatId: this.props.id,
-      token: tokenData.token,
-    }); */
     store.set('currentChat', this.props);
   }
 

@@ -10,12 +10,16 @@ class Router {
     this.history = window.history;
     this._currentRoute = null;
     this._rootQuery = rootQuery;
-
+    this._options = null;
     Router.__instance = this;
   }
 
-  use(pathname, block) {
-    const route = new Route(pathname, block, { rootQuery: this._rootQuery });
+  use(pathname, block, options) {
+    this.options = options;
+    const route = new Route(pathname, block, {
+      rootQuery: this._rootQuery,
+      isAuth: options?.isAuth,
+    });
     this.routes.push(route);
     return this;
   }
@@ -29,11 +33,9 @@ class Router {
 
   _onRoute(pathname) {
     const route = this.getRoute(pathname);
-
     if (this._currentRoute) {
       this._currentRoute.leave();
     }
-
     this._currentRoute = route;
     route.render(route, pathname);
   }

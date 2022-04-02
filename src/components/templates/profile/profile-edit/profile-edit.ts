@@ -10,7 +10,8 @@ import AuthController from '/src/controllers/Auth.controller.ts';
 import BackPage from '/src/components/elements/backPage/index.ts';
 
 class ProfileEditPage extends Block {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     AuthController.getUser();
   }
 
@@ -161,126 +162,7 @@ class ProfileEditPage extends Block {
         },
       },
     ];
-    /*    const propsFieldsetInputs: [{
-      formFieldClassName: string,
-      labelClassName: string,
-      text: string,
-      errorText?: string,
-      errorClassName? : string,
-      regExp?: RegExp,
-      inputProps: {
-        className: string,
-        placeholder: string,
-        name: string,
-        events: Record<string, () => void>
-      }
-    }] = [
-      {
-        formFieldClassName: 'profile__form-field',
-        labelClassName: 'profile__form-label',
-        text: 'Почта',
-        errorText: 'Неверный формат почты',
-        errorClassName: 'profile__error-span',
-        regExp: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/gi,
-        inputProps: {
-          className: 'profile__input',
-          placeholder: store.state.currentUser?.email,
-          value: store.state.currentUser?.email,
-          name: 'email',
-          events: {
-            blur() {
-              const data = this.getContent().value;
-              this.eventBus().emit('validate', data);
-            },
-            focus() {
-              const data = this.getContent().value;
-              this.eventBus().emit('validate', data);
-            },
-          },
-        },
-      },
-      {
-        formFieldClassName: 'profile__form-field',
-        labelClassName: 'profile__form-label',
-        text: 'Логин',
-        errorText: 'Введите логин от 3-х символов без пробела',
-        errorClassName: 'profile__error-span',
-        regExp: /[\SA-Za-z0-9]{3,20}/g,
-        inputProps: {
-          className: 'profile__input',
-          placeholder: store.state.currentUser?.login,
-          value: store.state.currentUser?.login,
-          name: 'login',
-          events: {
-            blur() {
-              const data = this.getContent().value;
-              this.eventBus().emit('validate', data);
-            },
-            focus() {
-              const data = this.getContent().value;
-              this.eventBus().emit('validate', data);
-            },
-          },
-        },
-      },
-      {
-        formFieldClassName: 'profile__form-field',
-        labelClassName: 'profile__form-label',
-        text: 'Имя',
-        inputProps: {
-          className: 'profile__input',
-          placeholder: store.state.currentUser?.first_name,
-          value: store.state.currentUser?.first_name,
-          name: 'first_name',
-        },
-      },
-      {
-        formFieldClassName: 'profile__form-field',
-        labelClassName: 'profile__form-label',
-        text: 'Фамилия',
-        inputProps: {
-          className: 'profile__input',
-          placeholder: store.state.currentUser?.second_name,
-          value: store.state.currentUser?.second_name,
-          name: 'second_name',
-        },
-      },
-      {
-        formFieldClassName: 'profile__form-field',
-        labelClassName: 'profile__form-label',
-        text: 'Имя в чате',
-        inputProps: {
-          className: 'profile__input',
-          placeholder: store.state.currentUser?.display_name,
-          value: store.state.currentUser?.display_name,
-          name: 'display_name',
-        },
-      },
-      {
-        formFieldClassName: 'profile__form-field',
-        labelClassName: 'profile__form-label',
-        text: 'Телефон',
-        errorText: 'Неверный формат телефона',
-        errorClassName: 'profile__error-span',
-        regExp: /^([0-9+])[0-9]{10,15}/g,
-        inputProps: {
-          className: 'profile__input',
-          placeholder: store.state.currentUser?.phone,
-          value: store.state.currentUser?.phone,
-          name: 'phone',
-          events: {
-            blur() {
-              const data = this.getContent().value;
-              this.eventBus().emit('validate', data);
-            },
-            focus() {
-              const data = this.getContent().value;
-              this.eventBus().emit('validate', data);
-            },
-          },
-        },
-      },
-    ]; */
+
     this.children.backPage = new BackPage({ href: '/settings' });
     this.children.btnAvatar = new Button({
       textBtn: 'Поменять аватар',
@@ -319,30 +201,6 @@ class ProfileEditPage extends Block {
       },
       contentProps: formContentProps,
     });
-    /*    this.children.form = new Form({
-      httpOptions: {
-        url: 'profile_edit',
-        method: 'put',
-      },
-      events: {
-        submit(event) {
-          event.preventDefault();
-          const { fieldsetInputs } = this.children;
-          fieldsetInputs.forEach((fieldset) => {
-            const inputData = fieldset.children.input.getContent().value;
-            fieldset.children.input.eventBus().emit('validate', inputData);
-          });
-          const isValidForm = fieldsetInputs.every((fieldset) => fieldset.props.isValid);
-
-          if (isValidForm) {
-            UserController.updateUser(JSON.stringify(this.getFormData()));
-          }
-        },
-      },
-      formClassName: 'profile__form',
-      propsFieldsetInputs,
-      textBtn: 'Сохранить',
-    }); */
   }
 
   render() {

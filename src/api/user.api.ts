@@ -1,5 +1,3 @@
-import BaseApi from './base-api.ts';
-// import UserApi from '/src/api/user.api.ts';
 import HTTPTransport from '/src/utils/HTTPTransport.ts';
 
 export interface UserPostData{
@@ -20,26 +18,28 @@ export interface UserSearchPostData{
   login: string;
 }
 
-const userApiInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2/user');
-
-class UserApi extends BaseApi {
-  public static async updateUser(postData: UserPostData) {
-    return userApiInstance.put('/profile', { data: postData });
+class UserApi {
+  constructor() {
+    this.apiInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2/user');
   }
 
-  public static async updatePassword(postData: UserPasswordPostData) {
-    return userApiInstance.put('/password', { data: postData });
+  public async updateUser(postData: UserPostData) {
+    return this.apiInstance.put('/profile', { data: postData });
   }
 
-  public static async updateAvatar(postData: Blob) {
-    return userApiInstance.put('/profile/avatar', {
+  public async updatePassword(postData: UserPasswordPostData) {
+    return this.apiInstance.put('/password', { data: postData });
+  }
+
+  public async updateAvatar(postData: Blob) {
+    return this.apiInstance.put('/profile/avatar', {
       data: postData,
       headers: ['content-type', 'multipart/form-data'],
     });
   }
 
-  public static async search(postData: UserSearchPostData) {
-    return userApiInstance.post('/search', { data: postData });
+  public async search(postData: UserSearchPostData) {
+    return this.apiInstance.post('/search', { data: postData });
   }
 }
-export default UserApi;
+export default new UserApi();

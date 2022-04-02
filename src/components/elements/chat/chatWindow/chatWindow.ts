@@ -5,7 +5,11 @@ import ChatMessage from '/src/components/elements/chat/chatMessage/index.ts';
 class ChatWindow extends Block {
   initChildren() {
     if (this.props.messages && this.props.messages?.length) {
-      this.children.chatMessages = this.createBlocks(this.props.messages, ChatMessage);
+      const messages = this.props.messages.map((item) => {
+        item.currentUserId = this.props.currentUserId;
+        return item;
+      });
+      this.children.chatMessages = this.createBlocks(messages, ChatMessage);
     }
   }
 

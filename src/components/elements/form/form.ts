@@ -7,11 +7,12 @@ class Form extends Block {
     super({ ...props, content: [] });
   }
 
-  protected getFormData(): Record<string, string | number> {
+  protected getFormData(): Record<string, string | number> | null {
     const inputEl: HTMLElement = this.getContent();
     const inputs: [HTMLElement] = inputEl.querySelectorAll('input');
 
     const data: Record<string, string | number> = {};
+    if (!inputs) return null;
     Object.entries(inputs).forEach((input) => {
       const name: string = input[1].getAttribute('name');
       data[name] = input[1].value;

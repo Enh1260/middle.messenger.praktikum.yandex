@@ -29,6 +29,13 @@ class Route {
     return isEqual(pathname, this._pathname);
   }
 
+  isAuthProtected() {
+    if (this._props?.isAuth) {
+      return this._props.isAuth;
+    }
+    return false;
+  }
+
   render() {
     if (!this._block) {
       this._block = new this._blockClass();

@@ -77,94 +77,6 @@ const formContentProps = [
   },
 ];
 
-/* const propsFieldsetInputs: [{
-  formFieldClassName: string,
-  labelClassName: string,
-  text: string,
-  errorText?: string,
-  errorClassName? : string,
-  regExp?: RegExp,
-  inputProps: {
-    className: string,
-    placeholder: string,
-    name: string,
-    events: Record<string, () => void>
-  }
-}] = [
-  {
-    formFieldClassName: 'profile__form-field',
-    labelClassName: 'profile__form-label',
-    text: 'Новый пароль',
-    errorText: 'Пароль должен быть от 8 до 40 символов и содержать заглавную букву или цифру',
-    errorClassName: 'profile__error-span',
-    regExp: /(?=.*([0-9])|(?=.*[A-ZА-Я])).{8,40}/g,
-    inputProps: {
-      className: 'profile__input',
-      placeholder: 'Пароль',
-      name: 'newPassword',
-      type: 'password',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-      },
-    },
-  },
-  {
-    formFieldClassName: 'profile__form-field',
-    labelClassName: 'profile__form-label',
-    text: 'Повторите новый пароль',
-    errorText: 'Пароль должен быть от 8 до 40 символов и содержать заглавную букву или цифру',
-    errorClassName: 'profile__error-span',
-    regExp: /(?=.*([0-9])|(?=.*[A-ZА-Я])).{8,40}/g,
-    inputProps: {
-      className: 'profile__input',
-      placeholder: 'Пароль',
-      name: 'password_confirm',
-      type: 'password',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-      },
-    },
-  },
-  {
-    formFieldClassName: 'profile__form-field',
-    labelClassName: 'profile__form-label',
-    text: 'Старый пароль',
-    errorText: 'Пароль должен быть от 8 до 40 символов и содержать заглавную букву или цифру',
-    errorClassName: 'profile__error-span',
-    regExp: /(?=.*([0-9])|(?=.*[A-ZА-Я])).{8,40}/g,
-    inputProps: {
-      className: 'profile__input',
-      placeholder: 'Пароль',
-      name: 'oldPassword',
-      type: 'password',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-      },
-    },
-  },
-]; */
-
 class PasswordEditPage extends Block {
   initChildren() {
     this.children.backPage = new BackPage({ href: '/settings' });
@@ -194,30 +106,6 @@ class PasswordEditPage extends Block {
       },
       contentProps: formContentProps,
     });
-    /*    this.children.form = new Form({
-      formClassName: 'profile__form-edit',
-      propsFieldsetInputs,
-      textBtn: 'Сохранить',
-      events: {
-        submit(event) {
-          event.preventDefault();
-          const { fieldsetInputs } = this.children;
-
-          const resultValidation: boolean[] = []
-          fieldsetInputs.forEach((fieldset) => {
-            const inputData = fieldset.children.input.getContent().value;
-            fieldset.children.input.eventBus().emit('validate', inputData)
-            const errorSpan = this.getContent().querySelector('span').textContent
-            resultValidation.push(!errorSpan)
-          });
-          const isValidForm = resultValidation.every(value => value)
-
-          if (isValidForm) {
-            UserController.updatePassword(JSON.stringify(this.getFormData()));
-          }
-        },
-      },
-    }); */
   }
 
   render() {

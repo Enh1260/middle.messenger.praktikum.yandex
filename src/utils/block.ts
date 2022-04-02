@@ -1,6 +1,7 @@
 import { v4 as makeUUID } from 'uuid';
 import EventBus from './eventBus.ts';
-import cloneDeep from './cloneDeep.ts';
+import { cloneDeep } from './cloneDeep.ts';
+import { merge } from './merge.ts';
 
 class Block {
   static EVENTS = {
@@ -35,8 +36,8 @@ class Block {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this.__render.bind(this));
   }
 
-  protected initChildren(): void {
-    //   return true;
+  protected initChildren() {
+    return true;
   }
 
   private __componentDidMount():void {
@@ -61,16 +62,15 @@ class Block {
   }
 
   protected dispatchComponentDidMount() {
-  //  this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    return true;
   }
 
-  private __componentDidUpdate(oldProps, newProps):boolean {
+  private __componentDidUpdate(oldProps, newProps) {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) {
       return;
     }
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
-  //  return response;
   }
 
   protected componentDidUpdate(oldProps, newProps): boolean {
@@ -81,8 +81,8 @@ class Block {
     if (!nextProps) {
       return;
     }
-    this.props = cloneDeep(nextProps);
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+
+    merge(this.props, cloneDeep(nextProps));
   };
 
   get element() {
@@ -110,6 +110,7 @@ class Block {
     const fragment = this.render();
 
     const htmlElement = fragment.firstElementChild as HTMLElement;
+
     if (this.__element) this.__removeEvents();
     if (this.__element) {
       this.__element.replaceWith(htmlElement);
@@ -152,7 +153,6 @@ class Block {
         return target[prop];
       },
       set: (target, prop, value) => {
-        target[prop] = value;
         this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target[prop], ...value });
         return true;
       },
@@ -217,7 +217,7 @@ class Block {
       }
 
       if (stub === null || stub[0] === null) {
-        throw new Error(`Отстуствует элемент в шаблоне${child}`);
+        throw new Error(`Отстуствует элемент в шаблоне,${child.__element}`);
       }
       if (Array.isArray(child)) {
         child.forEach((ch, index) => {

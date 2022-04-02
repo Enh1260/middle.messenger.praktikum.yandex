@@ -30,6 +30,12 @@
   width: 30px;
   height: 30px;
   position: absolute;
+  background-image: url("/static/icons/close.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
   top: 40px;
   right: 30px;
 }
