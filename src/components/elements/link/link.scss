@@ -1,0 +1,27 @@
+@import "src/styles/variables";
+
+.default-link {
+  color: $green-base;
+  font-family: Inter-Medium, sans-serif;
+  font-size: 13px;
+  line-height: 13px;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.button-link {
+  color: $green-base;
+  font-family: Inter-Medium, sans-serif;
+  font-size: 13px;
+  line-height: 13px;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: none;
+  }
+}

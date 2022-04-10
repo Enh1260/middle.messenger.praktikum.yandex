@@ -3,11 +3,12 @@ import template from './chatsList.pug';
 import ChatItem from '/src/components/elements/chat/chatItem/index.ts';
 
 class ChatsList extends Block {
+  initChildren() {
+    this.children.chatItems = this.createBlocks(this.props.chats, ChatItem) || [];
+  }
+
   render() {
-    this.children.chatItems = this.createBlocks(this.props.dataChatsList, ChatItem);
-    return this.compile(template, {
-      chatItems: this.props.chatItems,
-    });
+    return this.compile(template, { ...this.props });
   }
 }
 export default ChatsList;

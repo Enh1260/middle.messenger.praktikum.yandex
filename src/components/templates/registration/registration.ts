@@ -1,183 +1,155 @@
 import Block from '/src/utils/block.ts';
 import template from './registration.pug';
-import Form from '/src/components/elements/form/form/index.ts';
+import Form from '/src/components/elements/form/index.ts';
+import AuthController from '/src/controllers/Auth.controller.ts';
+import Link from '/src/components/elements/link/index.ts';
+import FieldsetInput from '/src/components/elements/fieldsetInput/index.ts';
 
-const propsFieldsetInputs: [{
-  formFieldClassName: string,
-  labelClassName: string,
-  text: string,
-  errorText?: string,
-  errorClassName? : string,
-  regExp?: RegExp,
-  inputProps: {
-    className: string,
-    placeholder: string,
-    name: string,
-    events: Record<string, () => void>
-  }
-}] = [
+const formContentProps = [
   {
-    formFieldClassName: 'auth-form__field',
-    labelClassName: 'auth-form__label',
-    text: 'Почта',
-    errorText: 'Неверный формат почты',
-    errorClassName: 'auth-form__span',
-    regExp: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/gi,
-    inputProps: {
-      className: 'auth-form__input',
-      placeholder: 'Почта',
-      name: 'email',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-      },
-    },
-
-  },
-  {
-    formFieldClassName: 'auth-form__field',
-    labelClassName: 'auth-form__label',
-    text: 'Логин',
-    errorText: 'Введите логин от 3-х символов без пробела',
-    errorClassName: 'auth-form__span',
-    regExp: /[\SA-Za-z0-9]{3,20}/g,
-    inputProps: {
-      className: 'auth-form__input',
-      placeholder: 'Логин',
-      name: 'login',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
+    component: FieldsetInput,
+    props: {
+      formFieldClassName: 'auth-form__field',
+      labelClassName: 'auth-form__label',
+      text: 'Почта',
+      validationType: 'email',
+      inputProps: {
+        placeholder: 'Почта',
+        className: 'auth-form__input',
+        name: 'email',
+        events: {
+          focus(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
+          blur(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
         },
       },
     },
   },
   {
-    formFieldClassName: 'auth-form__field',
-    labelClassName: 'auth-form__label',
-    text: 'Имя',
-    errorText: 'Имя должно начинаться с заглавной буквы без цифр и пробела',
-    errorClassName: 'auth-form__span',
-    regExp: /^([A-ZА-Я])[A-ZА-Яа-яa-z\S\D]+/g,
-    inputProps: {
-      regExp: /^([A-ZА-Я])[A-ZА-Яа-яa-z\S\D]+/g,
-      className: 'auth-form__input',
-      placeholder: 'Имя',
-      name: 'first_name',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
+    component: FieldsetInput,
+    props: {
+      formFieldClassName: 'auth-form__field',
+      labelClassName: 'auth-form__label',
+      text: 'Имя',
+      validationType: 'first_name',
+      inputProps: {
+        placeholder: 'Имя',
+        className: 'auth-form__input',
+        name: 'first_name',
+        events: {
+          focus(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
+          blur(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
         },
       },
     },
   },
   {
-    formFieldClassName: 'auth-form__field',
-    labelClassName: 'auth-form__label',
-    text: 'Фамилия',
-    errorText: 'Фамилия должна начинаться с заглавной буквы без цифр и пробела',
-    errorClassName: 'auth-form__span',
-    regExp: /^([A-ZА-Я])[A-ZА-Яа-яa-z\S\D]+/g,
-    inputProps: {
-      className: 'auth-form__input',
-      placeholder: 'Фамилия',
-      name: 'second_name',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-      },
-    },
-  },
-  {
-    formFieldClassName: 'auth-form__field',
-    labelClassName: 'auth-form__label',
-    text: 'Телефон',
-    errorText: 'Неверный формат телефона',
-    errorClassName: 'auth-form__span',
-    regExp: /^([0-9+])[0-9]{10,15}/g,
-    inputProps: {
-      className: 'auth-form__input',
-      placeholder: 'Телефон',
-      name: 'phone',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
+    component: FieldsetInput,
+    props: {
+      formFieldClassName: 'auth-form__field',
+      labelClassName: 'auth-form__label',
+      text: 'Фамилия',
+      validationType: 'second_name',
+      inputProps: {
+        placeholder: 'Фамилия',
+        className: 'auth-form__input',
+        name: 'second_name',
+        events: {
+          focus(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
+          blur(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
         },
       },
     },
   },
   {
-    formFieldClassName: 'auth-form__field',
-    labelClassName: 'auth-form__label',
-    text: 'Пароль',
-    errorText: 'Пароль должен быть от 8 до 40 символов и содержать заглавную букву или цифру',
-    errorClassName: 'auth-form__span',
-    regExp: /(?=.*([0-9])|(?=.*[A-ZА-Я])).{8,40}/g,
-    inputProps: {
-      className: 'auth-form__input',
-      placeholder: 'Пароль',
-      name: 'password',
-      type: 'password',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
-        },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
+    component: FieldsetInput,
+    props: {
+      formFieldClassName: 'auth-form__field',
+      labelClassName: 'auth-form__label',
+      text: 'Логин',
+      validationType: 'login',
+      inputProps: {
+        placeholder: 'Логин',
+        className: 'auth-form__input',
+        name: 'login',
+        events: {
+          focus(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
+          blur(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
         },
       },
     },
   },
   {
-    formFieldClassName: 'auth-form__field',
-    labelClassName: 'auth-form__label',
-    text: 'Пароль еще раз',
-    errorText: 'Пароль должен быть от 8 до 40 символов и содержать заглавную букву или цифру',
-    errorClassName: 'auth-form__span',
-    regExp: /(?=.*([0-9])|(?=.*[A-ZА-Я])).{8,40}/g,
-    inputProps: {
-      className: 'auth-form__input',
-      placeholder: 'Пароль',
-      name: 'password_check',
-      type: 'password',
-      events: {
-        blur() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
+    component: FieldsetInput,
+    props: {
+      formFieldClassName: 'auth-form__field',
+      labelClassName: 'auth-form__label',
+      text: 'Телефон',
+      validationType: 'phone',
+      inputProps: {
+        placeholder: 'Телефон',
+        className: 'auth-form__input',
+        name: 'phone',
+        events: {
+          focus(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
+          blur(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
         },
-        focus() {
-          const data = this.getContent().value;
-          this.eventBus().emit('validate', data);
+      },
+    },
+  },
+  {
+    component: FieldsetInput,
+    props: {
+      formFieldClassName: 'auth-form__field',
+      labelClassName: 'auth-form__label',
+      text: 'Пароль',
+      validationType: 'password',
+      inputProps: {
+        placeholder: 'Пароль',
+        className: 'auth-form__input',
+        name: 'password',
+        type: 'password',
+        events: {
+          focus(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
+          blur(event) {
+            this.eventBus().emit('validate', event.target.value);
+          },
         },
+      },
+    },
+  },
+  {
+    component: FieldsetInput,
+    props: {
+      formFieldClassName: 'auth-form__field',
+      labelClassName: 'auth-form__label',
+      text: 'Пароль еще раз',
+      inputProps: {
+        placeholder: 'Пароль',
+        className: 'auth-form__input',
+        name: 'confirm_password',
+        type: 'password',
       },
     },
   },
@@ -185,14 +157,37 @@ const propsFieldsetInputs: [{
 
 class RegistrationPage extends Block {
   initChildren() {
+    this.children.linkSignIn = new Link({
+      text: 'Войти',
+      href: '/sign-in',
+      className: 'default-link',
+    });
     this.children.form = new Form({
-      httpOptions: {
-        url: 'registration',
-        method: 'post',
+      className: 'auth-form__form',
+      btnSubmit: {
+        className: 'default-button',
+        textBtn: 'Зарегистрироваться',
       },
-      formClassName: 'auth-form__form',
-      propsFieldsetInputs,
-      textBtn: 'Зарегистрироваться',
+      events: {
+        submit(event) {
+          event.preventDefault();
+          const fieldsetInputs = this.children.content;
+
+          const resultValidation: boolean[] = [];
+          fieldsetInputs.forEach((fieldset) => {
+            const inputData = fieldset.children.input.getContent().value;
+            fieldset.children.input.eventBus().emit('validate', inputData);
+            const errorSpan = this.getContent().querySelector('span').textContent;
+            resultValidation.push(!errorSpan);
+          });
+          const isValidForm = resultValidation.every((value) => value);
+
+          if (isValidForm) {
+            AuthController.registration(JSON.stringify(this.getFormData()));
+          }
+        },
+      },
+      contentProps: formContentProps,
     });
   }
 

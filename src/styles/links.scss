@@ -1,5 +1,7 @@
+@import "src/styles/variables";
+
 .default-link {
-  color: #216d29;
+  color: $green-base;
   font-family: Inter-Medium, sans-serif;
   font-size: 13px;
   line-height: 13px;

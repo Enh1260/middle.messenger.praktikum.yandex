@@ -3,14 +3,10 @@ import template from './chatMessage.pug';
 
 class ChatMessage extends Block {
   constructor(props) {
-    super(props);
-
-    if (this.props.isSelf) {
-      this.getContent().classList.add('message-right');
-      const messageBody: HTMLElement = this.getContent()
-        .getElementsByClassName('chat-message__body')[0];
-      messageBody.classList.add('message-self');
-    }
+    super({
+      ...props,
+      isItself: props.user_id === props.currentUserId,
+    });
   }
 
   render() {
