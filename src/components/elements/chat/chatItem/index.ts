@@ -1,9 +1,10 @@
-import ChatItem from './chatItem.ts';
-import { connect } from '/src/utils/connect.ts';
+import ChatItem from './chatItem';
+// import { connect } from '../../../../utils/connect';
+// import { IStoreState } from '../../../../types/store-state.interface';
 import './chatItem.scss';
 
-const withStore = (state) => ({
-  userId: state.currentUser.id,
-});
+/* const withStore = (state: IStoreState) => ({
+  currentUserId: state.currentUser?.id,
+}); */
 
-export default connect(withStore)(ChatItem);
+export default ChatItem;// connect(withStore)(ChatItem);

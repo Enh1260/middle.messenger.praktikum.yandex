@@ -1,12 +1,13 @@
-import set from '/src/utils/set.ts';
-import EventBus from '/src/utils/eventBus.ts';
+import set from '../utils/set';
+import EventBus from '../utils/eventBus';
+import { IStoreState } from '../types/store-state.interface';
 
 export enum StoreEvents {
   Updated = 'updated',
 }
 
 class Store extends EventBus {
-  private state = {};
+  private state: IStoreState = {};
 
   public getState() {
     return this.state;
@@ -14,7 +15,7 @@ class Store extends EventBus {
 
   public set(path: string, value: unknown): void {
     set(this.state, path, value);
-    this.emit(StoreEvents.Updated);
+    this.emit(StoreEvents.Updated, { path });
   }
 }
 

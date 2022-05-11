@@ -5,6 +5,7 @@
     "selector-class-pattern": "^[a-z][a-z0-9_-]+$"
   },
   "ignoreFiles": [
+    "Dockerfile",
     "dist/**/**/**/**/*",
     "static/**/**/**/*",
     "**/*.md",

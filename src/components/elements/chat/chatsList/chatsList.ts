@@ -1,6 +1,6 @@
-import Block from '/src/utils/block.ts';
+import Block from '../../../../utils/block';
 import template from './chatsList.pug';
-import ChatItem from '/src/components/elements/chat/chatItem/index.ts';
+import ChatItem from '../../../../components/elements/chat/chatItem/index';
 
 class ChatsList extends Block {
   initChildren() {

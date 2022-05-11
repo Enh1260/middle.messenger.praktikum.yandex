@@ -1,18 +1,35 @@
-import renderDOM from '../utils/renderDom.ts';
+import renderDOM from '../utils/renderDom';
 
-function isEqual(lhs, rhs) {
+function isEqual(lhs: any, rhs: any) {
   return lhs === rhs;
 }
-
+export type TRouteOptions = {
+  isAuth?: boolean,
+  rootQuery?: string
+}
 class Route {
-  constructor(pathname, view, props) {
+  protected _pathname: string;
+
+  protected _blockClass: any;
+
+  protected _block: any;
+
+  protected rootQuery: string;
+
+  protected _props?: {
+      isAuth?: boolean;
+      rootQuery?: string;
+    };
+
+  constructor(pathname: string, view: any, rootQuery: string, props: TRouteOptions) {
     this._pathname = pathname;
     this._blockClass = view;
     this._block = null;
     this._props = props;
+    this.rootQuery = rootQuery;
   }
 
-  navigate(pathname) {
+  navigate(pathname: string) {
     if (this.match(pathname)) {
       this._pathname = pathname;
       this.render();
@@ -20,12 +37,15 @@ class Route {
   }
 
   leave() {
-    if (this._block) {
-      document.querySelector(this._props.rootQuery).innerHTML = '';
+    if (this._block && this.rootQuery) {
+      const rootQuery = document.querySelector(this.rootQuery);
+      if (rootQuery) {
+        rootQuery.innerHTML = '';
+      }
     }
   }
 
-  match(pathname) {
+  match(pathname: string) {
     return isEqual(pathname, this._pathname);
   }
 
@@ -40,7 +60,7 @@ class Route {
     if (!this._block) {
       this._block = new this._blockClass();
     }
-    renderDOM(this._props.rootQuery, this._block);
+    renderDOM(this.rootQuery, this._block);
   }
 }
 

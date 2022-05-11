@@ -1,9 +1,9 @@
-import ProfileEditPage from './profile-edit.ts';
-import { connect } from '/src/utils/connect.ts';
+import ProfileEditPage from './profile-edit';
+import { connect } from '../../../../utils/connect';
 import '/src/styles/profile.scss';
 import '/src/styles/profile-form.scss';
 
-const withStore = (state) => ({
+const withStore = (state: any) => ({
   currentUser: state.currentUser,
 });
 

@@ -1,10 +1,10 @@
-import ChatRoom from './chatRoom.ts';
+import ChatRoom from './chatRoom';
 import './chatRoom.scss';
-import { connect } from '/src/utils/connect.ts';
+import { connect } from '../../../../utils/connect';
+import { IStoreState } from '../../../../types/store-state.interface';
 
-const withStore = (state) => ({
+const withStore = (state: IStoreState) => ({
   currentChat: state.currentChat,
-  currentUser: state.currentUser,
 });
 
 export default connect(withStore)(ChatRoom);

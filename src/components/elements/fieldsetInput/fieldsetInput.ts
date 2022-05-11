@@ -1,7 +1,7 @@
-import Block from '/src/utils/block.ts';
+import Block from '../../../utils/block';
 import template from './fieldsetInput.pug';
-import Input from '/src/components/elements/input/input.ts';
-import Validator from '/src/utils/validator.ts';
+import Input from '../../../components/elements/input/input';
+import Validator from '../../../utils/validator';
 
 export type FieldsetInputProps = {
   formFieldClassName: string;
@@ -17,7 +17,7 @@ export type FieldsetInputProps = {
 }
 
 class FieldsetInput extends Block {
-  fieldSetValidate(data) {
+  fieldSetValidate(data: string) {
     const { validationType } = this.props;
     const { isValid, errorMessage } = Validator.validate(validationType, data);
 
@@ -35,7 +35,7 @@ class FieldsetInput extends Block {
       this.children.input = new Input(this.props.inputProps);
     }
 
-    this.children.input.eventBus().on(
+    (this.children.input as Block).eventBus.on(
       'validate',
       this.fieldSetValidate.bind(this),
     );

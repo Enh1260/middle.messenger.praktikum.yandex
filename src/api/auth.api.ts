@@ -1,4 +1,4 @@
-import HTTPTransport from '/src/utils/HTTPTransport.ts';
+import HTTPTransport from '../utils/HTTPTransport';
 
 const authApiInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2/auth');
 
@@ -21,7 +21,7 @@ interface RegistrationResponse{
   id: number;
 }
 
-export interface GetUserResponse{
+export interface GetUserResponse extends Response{
   id: number;
   first_name: string;
   second_name: string;

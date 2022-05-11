@@ -1,28 +1,20 @@
-import Block from '/src/utils/block.ts';
+import Block, { TComponentProps } from '../../../utils/block';
 import template from './chat.pug';
-import ChatRoom from '/src/components/elements/chat/chatRoom/index.ts';
-import ChatsList from '/src/components/elements/chat/chatsList/index.ts';
-import Button from '/src/components/elements/button/index.ts';
-import Popup from '/src/components/elements/popup/index.ts';
-import AuthController from '/src/controllers/Auth.controller.ts';
-import ChatsController from '/src/controllers/Chats.controller.ts';
-import Form from '/src/components/elements/form/index.ts';
-import Link from '/src/components/elements/link/index.ts';
-import Input from '/src/components/elements/input/index.ts';
+import ChatRoom from '../../../components/elements/chat/chatRoom/index';
+import ChatsList from '../../../components/elements/chat/chatsList/index';
+import Button from '../../../components/elements/button/index';
+import Popup from '../../../components/elements/popup/index';
+import AuthController from '../../../controllers/Auth.controller';
+import ChatsController from '../../../controllers/Chats.controller';
+import Form from '../../../components/elements/form/index';
+import Link from '../../../components/elements/link/index';
+import Input from '../../../components/elements/input/index';
 
 class ChatPage extends Block {
-  constructor(props) {
-    super({ ...props, currentUser: {}, chats: [] });
+  constructor(props: TComponentProps) {
     AuthController.getUser();
     ChatsController.requestAll();
-  }
-
-  chatItemHandler(currentChat: object): void {
-    this.enterChat(currentChat).bind(this);
-  }
-
-  componentDidMount() {
-    return true;
+    super({ ...props, chats: [] });
   }
 
   initChildren() {
@@ -33,11 +25,12 @@ class ChatPage extends Block {
         textBtn: 'Создать',
       },
       events: {
-        submit(event) {
+        submit(event: any) {
           event.preventDefault();
-          const data = JSON.stringify(this.getFormData());
+          const data = this.getFormData();
           ChatsController.create(data);
           ChatsController.requestAll();
+          this.eventBus.emit('hidePopup');
         },
       },
       contentProps: [
@@ -57,8 +50,8 @@ class ChatPage extends Block {
       href: '/settings',
       className: 'button-link',
     });
-    this.children.chatsList = new ChatsList();
-    this.children.chatRoom = new ChatRoom();
+    this.children.chatsList = new ChatsList({});
+    this.children.chatRoom = new ChatRoom({});
     this.children.btnLogout = new Button({
       textBtn: 'Выйти',
       className: 'chat__button-logout',
@@ -71,12 +64,12 @@ class ChatPage extends Block {
     this.children.popupCreateChat = new Popup({
       title: 'Создать чат',
       content: formCreateChat,
-    });
+    }) as Block;
     this.children.btnCreateChat = new Button({
       className: 'chat__button-add-chat',
       events: {
         click: () => {
-          this.children.popupCreateChat.show();
+          (this.children.popupCreateChat as Block).show();
         },
       },
     });

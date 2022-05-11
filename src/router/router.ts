@@ -1,6 +1,18 @@
-import Route from './route.ts';
+import Route, { TRouteOptions } from './route';
 
 class Router {
+  protected static __instance: Router;
+
+  protected routes: Route[];
+
+  protected history: History;
+
+  protected _currentRoute?: Route;
+
+  protected _rootQuery: string;
+
+  protected _options: TRouteOptions;
+
   constructor(rootQuery: string) {
     if (Router.__instance) {
       return Router.__instance;
@@ -8,16 +20,13 @@ class Router {
 
     this.routes = [];
     this.history = window.history;
-    this._currentRoute = null;
     this._rootQuery = rootQuery;
-    this._options = null;
     Router.__instance = this;
   }
 
-  use(pathname, block, options) {
-    this.options = options;
-    const route = new Route(pathname, block, {
-      rootQuery: this._rootQuery,
+  use(pathname: string, block: any, options: TRouteOptions = { isAuth: false }) {
+    this._options = options;
+    const route = new Route(pathname, block, this._rootQuery, {
       isAuth: options?.isAuth,
     });
     this.routes.push(route);
@@ -25,22 +34,22 @@ class Router {
   }
 
   start(): void {
-    window.onpopstate = (event) => {
+    window.onpopstate = (event: any) => {
       this._onRoute(event.currentTarget.location.pathname);
     };
     this._onRoute(window.location.pathname);
   }
 
-  _onRoute(pathname) {
-    const route = this.getRoute(pathname);
+  _onRoute(pathname: string) {
+    const route = this.getRoute(pathname) as Route;
     if (this._currentRoute) {
       this._currentRoute.leave();
     }
     this._currentRoute = route;
-    route.render(route, pathname);
+    route.render();
   }
 
-  go(pathname) {
+  go(pathname: string) {
     this.history.pushState({}, '/', pathname);
     this._onRoute(pathname);
   }
@@ -53,7 +62,7 @@ class Router {
     this.history.forward();
   }
 
-  getRoute(pathname) {
+  getRoute(pathname: string) {
     return this.routes.find((route) => route.match(pathname));
   }
 }

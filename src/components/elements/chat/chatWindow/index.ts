@@ -1,9 +1,10 @@
-import ChatWindow from './chatWindow.ts';
-import { connect } from '/src/utils/connect.ts';
+import ChatWindow from './chatWindow';
+import { connect } from '../../../../utils/connect';
+import { IStoreState } from '../../../../types/store-state.interface';
 
-const withStore = (state) => ({
+const withStore = (state: IStoreState) => ({
   messages: state.messages,
-  currentUserId: state.currentUser.id,
+  currentUserId: state?.currentUser?.id,
 });
 
 export default connect(withStore)(ChatWindow);

@@ -11,11 +11,17 @@
   display: flex;
 }
 
-.chat__avatar {
+.chat__wrap-avatar {
   height: 47px;
   width: 47px;
   border-radius: 50%;
   background-color: $grey-bg;
+}
+
+.chat__avatar {
+  height: 47px;
+  width: 47px;
+  border-radius: 50%;
 }
 
 .chat__title {

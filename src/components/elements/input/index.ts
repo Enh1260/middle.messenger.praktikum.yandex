@@ -1,3 +1,3 @@
-import Input from './input.ts';
+import Input from './input';
 
 export default Input;

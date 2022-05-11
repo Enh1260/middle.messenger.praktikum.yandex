@@ -1,13 +1,22 @@
-import store from '/src/store/store.ts';
+import store from '../store/store';
+import { IStoreState } from '../types/store-state.interface';
+import Block, { TComponentProps } from './block';
 
-export const connect = (mapStateToProps: (state)) => (Component) => class extends Component {
-  constructor(props) {
-    const state = store.getState();
-    super({ ...props, ...mapStateToProps(state) });
+export const connect = (mapStateToProps: (state: IStoreState) => Record<string, unknown>) =>
+  (Component: typeof Block) => class extends Component {
+    constructor(props: TComponentProps) {
+      const state = mapStateToProps(store.getState());
 
-    store.on('updated', () => {
-      this.setProps({ ...mapStateToProps(store.getState()) });
-    });
-  }
-};
+      super({ ...props, ...state });
+
+      store.on('updated', (arg: Record<string, string>) => {
+        const { path } = arg;
+        const newProps = mapStateToProps(store.getState());
+
+        if (this.isPropsKeysInState(path, newProps)) {
+          this.setProps({ ...newProps });
+        }
+      });
+    }
+  };
 export default connect;

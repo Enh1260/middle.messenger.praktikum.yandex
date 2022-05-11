@@ -5,12 +5,16 @@
 		.chat-side 
 			|!{btnCreateChat} 
 			.chat-side__header
-				img(
-					src=currentUser.avatar
-					class='chat__avatar'
-				)
-				.chat-side__name 
-					|#{currentUser.display_name}
+				if currentUser && currentUser.avatar
+					img(
+						src=currentUser.avatar
+						class='chat__avatar'
+					)
+				else
+					.chat__wrap-avatar
+				.chat-side__name
+					if currentUser && currentUser.avatar
+						|#{currentUser.display_name}
 				.point-button.chat__menu-button
 					ul.chat__menu-inner
 						li.chat__menu-item

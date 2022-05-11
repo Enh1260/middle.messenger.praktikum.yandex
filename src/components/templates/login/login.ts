@@ -1,9 +1,9 @@
-import Block from '/src/utils/block.ts';
+import Block from '../../../utils/block';
 import template from './login.pug';
-import Form from '/src/components/elements/form/index.ts';
-import AuthController from '/src/controllers/Auth.controller.ts';
-import Link from '/src/components/elements/link/index.ts';
-import FieldsetInput from '/src/components/elements/fieldsetInput/index.ts';
+import Form from '../../../components/elements/form/index';
+import AuthController from '../../../controllers/Auth.controller';
+import Link from '../../../components/elements/link/index';
+import FieldsetInput from '../../../components/elements/fieldsetInput/index';
 
 const formContentProps = [
   {
@@ -18,11 +18,11 @@ const formContentProps = [
         className: 'auth-form__input',
         name: 'login',
         events: {
-          focus(event) {
-            this.eventBus().emit('validate', event.target.value);
+          focus(event: any) {
+            this.eventBus.emit('validate', event.target.value);
           },
-          blur(event) {
-            this.eventBus().emit('validate', event.target.value);
+          blur(event: any) {
+            this.eventBus.emit('validate', event.target.value);
           },
         },
       },
@@ -41,11 +41,11 @@ const formContentProps = [
         name: 'password',
         type: 'password',
         events: {
-          focus(event) {
-            this.eventBus().emit('validate', event.target.value);
+          focus(event: any) {
+            this.eventBus.emit('validate', event.target.value);
           },
-          blur(event) {
-            this.eventBus().emit('validate', event.target.value);
+          blur(event: any) {
+            this.eventBus.emit('validate', event.target.value);
           },
         },
       },
@@ -67,21 +67,21 @@ class LoginPage extends Block {
         textBtn: 'Войти',
       },
       events: {
-        submit(event) {
+        submit(event: any) {
           event.preventDefault();
           const fieldsetInputs = this.children.content;
 
           const resultValidation: boolean[] = [];
-          fieldsetInputs.forEach((fieldset) => {
+          fieldsetInputs.forEach((fieldset: any) => {
             const inputData = fieldset.children.input.getContent().value;
-            fieldset.children.input.eventBus().emit('validate', inputData);
+            fieldset.children.input.eventBus.emit('validate', inputData);
             const errorSpan = this.getContent().querySelector('span').textContent;
             resultValidation.push(!errorSpan);
           });
           const isValidForm = resultValidation.every((value) => value);
 
           if (isValidForm) {
-            AuthController.login(JSON.stringify(this.getFormData()));
+            AuthController.login(this.getFormData());
           }
         },
       },

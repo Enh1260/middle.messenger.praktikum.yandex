@@ -1,10 +1,11 @@
-import ChatPage from './chat.ts';
+import ChatPage from './chat';
 import './chat.scss';
 import './chat-main.scss';
 import './chat-side.scss';
-import { connect } from '/src/utils/connect.ts';
+import './chat-search-user.scss';
+import { connect } from '../../../utils/connect';
 
-const withStore = (state) => ({
+const withStore = (state: any) => ({
   currentUser: state.currentUser,
 });
 export default connect(withStore)(ChatPage);

@@ -1,4 +1,4 @@
-import Block from '/src/utils/block.ts';
+import Block from '../../../utils/block';
 import template from './404.pug';
 
 class Page404 extends Block {

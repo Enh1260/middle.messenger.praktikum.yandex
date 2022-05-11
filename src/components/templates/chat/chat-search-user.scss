@@ -1,0 +1,16 @@
+.search-list__wrap {
+  max-height: 200px;
+  min-height: 50px;
+  overflow-y: auto;
+}
+
+.seacrh-list {
+  list-style-type: none;
+  font-family: Inter-Medium, sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.search-item {
+  padding: 5px 0;
+}

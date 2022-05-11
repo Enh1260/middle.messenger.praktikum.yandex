@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import Router from './router.ts';
-import TestBlock from '../test/testBlock.ts';
+import Router from './router';
+import TestBlock from '../test/testBlock';
 
 const router = new Router('#app');
 router.use('/', TestBlock)
@@ -10,7 +10,10 @@ router.use('/', TestBlock)
 
 describe('Проверяем работу Router', () => {
   it('Router должен регистрировать новые роуты', () => {
-    expect(router.routes.length).to.eq(3);
+    expect(router.getRoute('/login'))
+      .to.deep.include({ _pathname: '/login' });
+    expect(router.getRoute('/register'))
+      .to.deep.include({ _pathname: '/register' });
   });
   it('Переход на новую страницу должен менять состояние сущности history', () => {
     router.go('/login');

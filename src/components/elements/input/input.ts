@@ -1,4 +1,4 @@
-import Block from '/src/utils/block.ts';
+import Block from '../../../utils/block';
 import template from './input.pug';
 
 class Input extends Block {

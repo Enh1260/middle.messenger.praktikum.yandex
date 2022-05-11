@@ -1,13 +1,13 @@
-import Block from '/src/utils/block.ts';
+import Block, { TComponentProps } from '../../../utils/block';
 import template from './link.pug';
-import router from '/src/router/index.ts';
+import router from '../../../router/index';
 
 class Link extends Block {
-  constructor(props) {
+  constructor(props: TComponentProps) {
     super({
       ...props,
       events: {
-        click(event) {
+        click(event: any) {
           event.preventDefault();
           router.go(this.props.href);
         },

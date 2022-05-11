@@ -1,3 +1,3 @@
-import Form from './form.ts';
+import Form from './form';
 
 export { Form as default };

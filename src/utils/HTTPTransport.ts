@@ -6,40 +6,41 @@ enum METHODS {
 }
 
 type Options = {
-    url: string,
     method: string,
-    header?: [string, string],
-    data?: object
+    headers?: [string, string],
+    data?: any
 }
 
 class HTTPTransport {
+  private basePath: string;
+
   constructor(url: string) {
     this.basePath = url;
   }
 
-  public get = (url: string, options: Options = {}): Promise<TResponse> => {
+  public get = <Response>(url = '', options:Omit<Options, 'method'> = {}): Promise<Response> => {
     const stringifyUrl: string = this.basePath + url + this.queryStringify(options.data);
 
     return this.request(stringifyUrl, { ...options, method: METHODS.GET });
   };
 
-  public post = (url: string, options: Options = {}): () => Promise<TResponse> =>
+  public post = <Response>(url = '', options:Omit<Options, 'method'> = {}): Promise<Response> =>
     this.request(this.basePath + url, { ...options, method: METHODS.POST });
 
-  public put = (url: string, options: Options = {}): Promise<TResponse> =>
+  public put = <Response>(url = '', options:Omit<Options, 'method'> = {}): Promise<Response> =>
     this.request(this.basePath + url, { ...options, method: METHODS.PUT });
 
-  public delete = (url: string, options: Options = {}): Promise<TResponse> =>
+  public delete = <Response>(url = '', options:Omit<Options, 'method'> = {}): Promise<Response> =>
     this.request(this.basePath + url, { ...options, method: METHODS.DELETE });
 
-  private queryStringify = (data: Record<string, number | string>): string | void => {
+  private queryStringify = (data: Record<string, number | string> | undefined): string => {
     if (!data) return '';
     return `?${Object.entries(data)
       .map((arr) => `${arr[0]}=${arr[1]}`)
       .join('&')}`;
   };
 
-  private request<TResponse>(url: string, options: Options): Promise<TResponse> {
+  private request<Response>(url: string, options: Options): Promise<Response> {
     const { method, data, headers } = options;
 
     return new Promise((resolve, reject) => {
@@ -52,28 +53,21 @@ class HTTPTransport {
       }
 
       xhr.onload = function () {
-        resolve(xhr);
-      };
-
-      const handleError = (err) => {
-        reject(err);
-      };
-
-      const handleTimeout = (err) => {
-        xmr.abort();
-        handleError(err);
+        resolve(xhr.response);
       };
 
       xhr.withCredentials = true;
 
-      xhr.onabort = handleError;
-      xhr.onerror = handleError;
-      xhr.ontimeout = handleTimeout;
+      xhr.onabort = () => reject({ reason: 'abort' });
+      xhr.onerror = () => reject({ reason: 'error' });
+      xhr.ontimeout = () => reject({ reason: 'timeout' });
 
       if (method === METHODS.GET || !data) {
         xhr.send();
+      } else if (headers?.[1] === 'multipart/form-data') {
+        xhr.send((data));
       } else {
-        xhr.send(data);
+        xhr.send(JSON.stringify(data));
       }
     });
   }

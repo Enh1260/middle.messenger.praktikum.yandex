@@ -3,12 +3,14 @@
     "outDir": "dist",
     "target": "es2016",
     "declaration": false,
-    "module": "commonjs",
+    "moduleResolution": "node",
     "strictNullChecks": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
    }
 } 

@@ -1,16 +1,16 @@
-import Block from '/src/utils/block.ts';
+import Block, { TComponentProps } from '../../../../utils/block';
 import template from './profile-edit.pug';
-import Form from '/src/components/elements/form/index.ts';
-import FieldsetInput from '/src/components/elements/fieldsetInput/index.ts';
-import UserController from '/src/controllers/User.controller.ts';
-import Button from '/src/components/elements/button/index.ts';
-import FormAvatar from '/src/components/elements/formAvatar/index.ts';
-import Popup from '/src/components/elements/popup/index.ts';
-import AuthController from '/src/controllers/Auth.controller.ts';
-import BackPage from '/src/components/elements/backPage/index.ts';
+import Form from '../../../../components/elements/form/index';
+import FieldsetInput from '../../../../components/elements/fieldsetInput/index';
+import UserController from '../../../../controllers/User.controller';
+import Button from '../../../../components/elements/button/index';
+import FormAvatar from '../../../../components/elements/formAvatar/index';
+import Popup from '../../../../components/elements/popup/index';
+import AuthController from '../../../../controllers/Auth.controller';
+import BackPage from '../../../../components/elements/backPage/index';
 
 class ProfileEditPage extends Block {
-  constructor(props) {
+  constructor(props: TComponentProps) {
     super(props);
     AuthController.getUser();
   }
@@ -20,12 +20,12 @@ class ProfileEditPage extends Block {
       title: 'Загрузите файл',
       content: new FormAvatar({
         events: {
-          submit(event) {
+          submit(event: any) {
             event.preventDefault();
             const form = new FormData(this.getContent());
             UserController.updateAvatar(form);
             AuthController.getUser();
-            this.hide();
+            this.eventBus.emit('hidePopup');
           },
         },
       }),
@@ -45,11 +45,11 @@ class ProfileEditPage extends Block {
             name: 'email',
             value: this.props.currentUser?.email,
             events: {
-              focus(event) {
-                this.eventBus().emit('validate', event.target.value);
+              focus(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
-              blur(event) {
-                this.eventBus().emit('validate', event.target.value);
+              blur(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
             },
           },
@@ -68,11 +68,11 @@ class ProfileEditPage extends Block {
             name: 'first_name',
             value: this.props.currentUser?.first_name,
             events: {
-              focus(event) {
-                this.eventBus().emit('validate', event.target.value);
+              focus(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
-              blur(event) {
-                this.eventBus().emit('validate', event.target.value);
+              blur(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
             },
           },
@@ -91,11 +91,11 @@ class ProfileEditPage extends Block {
             name: 'second_name',
             value: this.props.currentUser?.second_name,
             events: {
-              focus(event) {
-                this.eventBus().emit('validate', event.target.value);
+              focus(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
-              blur(event) {
-                this.eventBus().emit('validate', event.target.value);
+              blur(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
             },
           },
@@ -128,11 +128,11 @@ class ProfileEditPage extends Block {
             name: 'login',
             value: this.props.currentUser?.login,
             events: {
-              focus(event) {
-                this.eventBus().emit('validate', event.target.value);
+              focus(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
-              blur(event) {
-                this.eventBus().emit('validate', event.target.value);
+              blur(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
             },
           },
@@ -151,11 +151,11 @@ class ProfileEditPage extends Block {
             name: 'phone',
             value: this.props.currentUser?.phone,
             events: {
-              focus(event) {
-                this.eventBus().emit('validate', event.target.value);
+              focus(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
-              blur(event) {
-                this.eventBus().emit('validate', event.target.value);
+              blur(event: any) {
+                this.eventBus.emit('validate', event.target.value);
               },
             },
           },
@@ -169,7 +169,7 @@ class ProfileEditPage extends Block {
       className: 'button-avatar',
       events: {
         click: () => {
-          this.children.avatarPopup.show();
+          (this.children.avatarPopup as Block).show();
         },
       },
 
@@ -182,20 +182,21 @@ class ProfileEditPage extends Block {
         textBtn: 'Сохранить',
       },
       events: {
-        submit(event) {
+        submit(event: any) {
           event.preventDefault();
           const fieldsetInputs = this.children.content;
           const resultValidation: boolean[] = [];
-          fieldsetInputs.forEach((fieldset) => {
-            const inputData = fieldset.children.input.getContent().value;
-            fieldset.children.input.eventBus().emit('validate', inputData);
+          fieldsetInputs.forEach((fieldset: FieldsetInput) => {
+            const inputEl = ((fieldset.children.input as Block).getContent() as HTMLInputElement);
+            const inputData = inputEl.value;
+            (fieldset.children.input as Block).eventBus.emit('validate', inputData);
             const errorSpan = this.getContent().querySelector('span').textContent;
             resultValidation.push(!errorSpan);
           });
           const isValidForm = resultValidation.every((value) => value);
 
           if (isValidForm) {
-            UserController.updateUser(JSON.stringify(this.getFormData()));
+            UserController.updateUser(this.getFormData());
           }
         },
       },

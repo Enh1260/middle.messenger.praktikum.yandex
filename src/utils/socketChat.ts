@@ -1,13 +1,72 @@
-import store from '/src/store/store.ts';
-import { cloneDeep } from '/src/utils/cloneDeep.ts';
+import store from '../store/store';
+import { IMessage } from '../types/message.interface';
 
-type SocketOptions = {
-  userId: string
-  chatId: string
-  token: string
+abstract class SocketChat {
+  protected socket: WebSocket;
+
+  protected connect(url: string) {
+    this.socket = new WebSocket(url);
+    this.addOpenEvent();
+    this.addMessageEvent();
+    this.addErrorEvent();
+    this.addCloseEvent();
+  }
+
+  protected getMessages() {
+    this.send(0, 'get old');
+  }
+
+  protected send(content: any, type: string) {
+    this.socket.send(JSON.stringify({
+      content,
+      type,
+    }));
+  }
+
+  addOpenEvent() {
+    this.socket.addEventListener('open', () => {
+      console.log('Connection start');
+      store.set('messages', []);
+      //      store.set('messages', null);
+      this.getMessages();
+    });
+  }
+
+  addMessageEvent() {
+    this.socket.addEventListener('message', (event) => {
+      let { messages } = store.getState();
+      const dataFromSocket = JSON.parse(event.data);
+      if (Array.isArray(dataFromSocket)) {
+        messages = dataFromSocket;
+      } else {
+        (messages as IMessage[]).push(dataFromSocket);
+      }
+
+      store.set('messages', messages);
+    });
+  }
+
+  addErrorEvent() {
+    this.socket.addEventListener('error', (event: ErrorEvent) => {
+      console.log('Ошибка', event.message);
+    });
+  }
+
+  addCloseEvent() {
+    this.socket.addEventListener('close', (event) => {
+      if (event.wasClean) {
+        console.log('Соединение закрыто чисто');
+      } else {
+        console.log('Обрыв соединения');
+      }
+
+      console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+    });
+  }
 }
 
-class SocketChat {
+/* class SocketChat {
+  protected socket: IWebSocket
   constructor() {
     if (this.socket) {
       return this.socket;
@@ -28,14 +87,15 @@ class SocketChat {
     });
 
     this.socket.addEventListener('message', (event) => {
-      if (!store.state.messages) {
+      const { messages } = store.getState();
+      if (messages) {
         store.set('messages', []);
       }
-      const dataMessages = JSON.parse(event.data);
-      const { messages } = store.getState();
-      const newMessages = cloneDeep(messages);
+      const dataMessages: any = JSON.parse(event.data);
+
+      const newMessages = cloneDeep(messages as []);
       if (Array.isArray(dataMessages)) {
-        newMessages.push(...JSON.parse(event.data));
+        newMessages.push(...dataMessages);
         newMessages.reverse();
       } else {
         newMessages.push(JSON.parse(event.data));
@@ -53,17 +113,17 @@ class SocketChat {
       console.log(`Код: ${event.code} | Причина: ${event.reason}`);
     });
 
-    this.socket.addEventListener('error', (event) => {
+    this.socket.addEventListener('error', (event: ErrorEvent) => {
       console.log('Ошибка', event.message);
     });
   }
 
-  send(message) {
+  send(message: string) {
     this.socket.send(JSON.stringify({
       content: message,
       type: 'message',
     }));
   }
-}
+} */
 
-export default new SocketChat();
+export default SocketChat;

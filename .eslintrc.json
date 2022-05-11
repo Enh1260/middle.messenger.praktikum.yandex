@@ -15,7 +15,18 @@
     "new-cap": ["error", { "newIsCap": false }],
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "no-param-reassign": ["error", { "props": false }],
-
+    "no-use-before-define": ["warn", { "classes": false, "variables": false  }],
+    "@typescript-eslint/no-empty-function": "warn",
+    "prefer-promise-reject-errors": "warn",
+    "import/extensions": [
+      0,
+      "ignorePackages", 
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ],
+    "no-tabs": 0,
     "no-underscore-dangle": 0,
     "no-restricted-exports": 0,
     "@typescript-eslint/no-unused-vars": 2,
