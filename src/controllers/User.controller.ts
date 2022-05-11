@@ -2,8 +2,8 @@ import UserApi, {
   UserPostData,
   UserPasswordPostData,
   UserSearchPostData,
-} from '/src/api/user.api.ts';
-import AuthController from './Auth.controller.ts';
+} from '../api/user.api';
+import AuthController from './Auth.controller';
 
 class UserController {
   constructor() {
@@ -19,12 +19,13 @@ class UserController {
     await UserApi.updatePassword(postData);
   }
 
-  public async updateAvatar(postData: Blob): Promise<void> {
+  public async updateAvatar(postData: FormData): Promise<void> {
     await UserApi.updateAvatar(postData);
   }
 
-  public async search(postData: UserSearchPostData): Promise<void> {
-    await UserApi.search(postData);
+  public async search(postData: UserSearchPostData): Promise<any> {
+    const response = await UserApi.search(postData);
+    return response;
   }
 }
 

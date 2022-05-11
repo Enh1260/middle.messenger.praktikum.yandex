@@ -1,7 +1,7 @@
-import ChatsList from './chatsList.ts';
-import { connect } from '/src/utils/connect.ts';
+import ChatsList from './chatsList';
+import { connect } from '../../../../utils/connect';
 
-const withStore = (state) => ({
+const withStore = (state: any) => ({
   chats: state.chats,
 });
 

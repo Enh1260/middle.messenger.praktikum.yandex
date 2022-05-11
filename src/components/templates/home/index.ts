@@ -1,4 +1,4 @@
 import './home.scss';
-import HomePage from './home.ts';
+import HomePage from './home';
 
 export default HomePage;

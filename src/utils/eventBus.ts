@@ -1,9 +1,9 @@
-class EventBus {
-  constructor() {
-    this.listeners = {};
-  }
+type TListener = Record<string, {(...args: unknown[]):void|unknown[]} []>
 
-  on(event, callback) {
+export default class EventBus {
+  protected listeners: TListener = {};
+
+  public on(event: string, callback: (...args: unknown[]) => void) {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -11,7 +11,7 @@ class EventBus {
     this.listeners[event].push(callback);
   }
 
-  off(event, callback) {
+  public off(event: string, callback: (...args: unknown[]) => void) {
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
@@ -21,7 +21,7 @@ class EventBus {
     );
   }
 
-  emit(event, ...args) {
+  public emit(event: string, ...args: unknown[]) {
     if (!this.listeners[event]) {
       console.log(`Нет события: ${event}`);
       return;
@@ -31,5 +31,3 @@ class EventBus {
     });
   }
 }
-
-export { EventBus as default };

@@ -1,9 +1,20 @@
 import { v4 as makeUUID } from 'uuid';
-import EventBus from './eventBus.ts';
-import { cloneDeep } from './cloneDeep.ts';
-import { merge } from './merge.ts';
+import EventBus from './eventBus';
+import { isEqual } from './isEqual';
 
-class Block {
+export type TChildren = {
+  [key: string]: Block | Block[];
+}
+
+export interface TComponentProps {
+  __id?: string;
+  __element?: HTMLElement;
+  children?: TChildren;
+
+  [key: string]: any;
+}
+
+export default class Block {
   static EVENTS = {
     INIT: 'init',
     INIT_CHLD: 'init-children',
@@ -12,32 +23,39 @@ class Block {
     FLOW_RENDER: 'flow:render',
   };
 
-  constructor(propsAndChildren = {}) {
-    const { children, props } = this.__getChildren(propsAndChildren);
-    const eventBus = new EventBus();
+  protected __id: string;
+
+  private __element!: HTMLElement;
+
+  protected props: any;
+
+  public children: TChildren;
+
+  public eventBus: EventBus;
+
+  constructor(propsAndChildren: TComponentProps = {}) {
+    const { children, props } = this.__getChildren(propsAndChildren) as TComponentProps;
 
     this.__id = makeUUID();
-    this.children = children;
-
+    this.children = children as TChildren;
     this.props = this.__makePropsProxy({ ...props, __id: this.__id });
+    this.eventBus = new EventBus();
 
-    this.eventBus = () => eventBus;
-
-    this.__registerEvents(eventBus);
-    eventBus.emit(Block.EVENTS.FLOW_CDM);
-    eventBus.emit(Block.EVENTS.INIT_CHLD);
-    eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    this.__registerEvents();
+    this.eventBus.emit(Block.EVENTS.INIT_CHLD);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  private __registerEvents(eventBus) {
-    eventBus.on(Block.EVENTS.INIT_CHLD, this.initChildren.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDM, this.__componentDidMount.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDU, this.__componentDidUpdate.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_RENDER, this.__render.bind(this));
+  private __registerEvents() {
+    this.eventBus.on(Block.EVENTS.INIT_CHLD, this.initChildren.bind(this));
+    this.eventBus.on(Block.EVENTS.FLOW_CDM, this.__componentDidMount.bind(this));
+    this.eventBus.on(Block.EVENTS.FLOW_CDU, this.__componentDidUpdate.bind(this));
+    this.eventBus.on(Block.EVENTS.FLOW_RENDER, this.__render.bind(this));
   }
 
-  protected initChildren() {
-    return true;
+  protected initChildren(): void {
+
   }
 
   private __componentDidMount():void {
@@ -53,36 +71,46 @@ class Block {
     });
   }
 
-  private __createDocumentElement(tagName: string): DocumentFragment {
+  private __createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
-  protected componentDidMount():boolean {
-    return true;
+  protected componentDidMount(): void {
+
   }
 
   protected dispatchComponentDidMount() {
-    return true;
+
   }
 
-  private __componentDidUpdate(oldProps, newProps) {
+  private __componentDidUpdate(oldProps: any, newProps: any) {
     const response = this.componentDidUpdate(oldProps, newProps);
-    if (response) {
-      return;
-    }
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+
+    if (response) return;
+
+    this.eventBus.emit(Block.EVENTS.INIT_CHLD);
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  protected componentDidUpdate(oldProps, newProps): boolean {
-    return oldProps === newProps;
+  protected componentDidUpdate(oldProps: any, newProps: any): boolean {
+    const setPropsIsEqual = isEqual(oldProps, newProps);
+
+    return setPropsIsEqual;
   }
 
-  protected setProps:void = (nextProps) => {
-    if (!nextProps) {
-      return;
-    }
+  protected isPropsKeysInState(path: any, newProps: any): boolean {
+    const newPropsKeys = Object.keys(newProps);
 
-    merge(this.props, cloneDeep(nextProps));
+    return newPropsKeys.includes(path);
+  }
+
+  public setProps = (nextProps: any): void => {
+    if (!nextProps) return;
+
+    const oldProps = { ...this.props };
+
+    Object.assign(this.props, nextProps);
+    this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldProps, nextProps);
   };
 
   get element() {
@@ -106,7 +134,6 @@ class Block {
   }
 
   private __render(): void {
-    this.eventBus().emit(Block.EVENTS.INIT_CHLD);
     const fragment = this.render();
 
     const htmlElement = fragment.firstElementChild as HTMLElement;
@@ -119,9 +146,11 @@ class Block {
       this.__element = htmlElement;
     }
     this.__addEvents();
+
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  protected render(): object {
+  protected render() {
     return this.compile();
   }
 
@@ -129,31 +158,32 @@ class Block {
     return this.__element;
   }
 
-  public createChildren(nameChildren, component, props) {
+  public createChildren(nameChildren: string, component: Block, props: any) {
     if (!props) return;
     this.children[nameChildren] = this.createBlocks(props, component);
   }
 
-  public createBlocks(data, Cnstr:Block): [Block] {
+  public createBlocks(data: any, Cnstr:any): Block[] | [] {
     if (!data) return [];
-    const arr:Array = [];
-    data.forEach((item) => {
-      const newCnstr:(Block) = new Cnstr(item);
+    const arr: Block[] = [];
+    data.forEach((item: any) => {
+      const newCnstr:Block = new Cnstr(item);
       arr.push(newCnstr);
     });
     return arr;
   }
 
-  private __makePropsProxy(props: number | string | object) {
+  private __makePropsProxy(props: TComponentProps) {
     const proxyProps = new Proxy(props, {
-      get: (target, prop) => {
+      get: (target, prop: string) => {
         if (typeof target[prop] === 'function') {
           return target[prop].bind(target);
         }
         return target[prop];
       },
-      set: (target, prop, value) => {
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target[prop], ...value });
+      set: (target, prop: string, value) => {
+        target[prop] = value;
+
         return true;
       },
       deleteProperty: () => {
@@ -173,8 +203,8 @@ class Block {
   }
 
   private __getChildren(propsAndChildren: object): object {
-    const children = {};
-    const props = {};
+    const children: TChildren = {};
+    const props: TComponentProps = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Block) {
@@ -189,7 +219,7 @@ class Block {
     return { children, props };
   }
 
-  public compile(template: (locals) => string, locals: number | string | object): HTMLElement {
+  public compile(template: any = {}, locals: TComponentProps = {}) {
     const propsAndChildren = locals;
 
     Object.entries(this.children).forEach(([key, child]) => {
@@ -200,17 +230,20 @@ class Block {
       }
     });
 
-    const fragment:DocumentFragment = this.__createDocumentElement('template');
+    const fragment = this.__createDocumentElement('template') as HTMLTemplateElement;
 
     const htmlString: string = template(propsAndChildren);
     fragment.innerHTML = htmlString;
 
-    Object.values(this.children).forEach((child) => {
-      let stub: HTMLElement | Array<HTMLElement> = null;
+    Object.values(this.children).forEach((child: Block) => {
+      let stub: any = [];
       if (Array.isArray(child)) {
-        stub = [];
         child.forEach((ch) => {
-          stub.push(fragment.content.querySelector(`[data-id="id-${ch.__id}"]`));
+          if (Array.isArray(stub)) {
+            const selector = `[data-id="id-${ch.__id}"]`;
+            const fragmentContent = fragment.content.querySelector(selector) as Element;
+            stub.push(fragmentContent);
+          }
         });
       } else {
         stub = fragment.content.querySelector(`[data-id="id-${child.__id}"]`);
@@ -223,12 +256,10 @@ class Block {
         child.forEach((ch, index) => {
           stub[index].replaceWith(ch.getContent());
         });
-      } else {
+      } else if (!Array.isArray(stub)) {
         stub.replaceWith(child.getContent());
       }
     });
     return fragment.content;
   }
 }
-
-export default Block;

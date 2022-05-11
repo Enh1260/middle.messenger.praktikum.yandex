@@ -1,11 +1,10 @@
-import Block from '/src/utils/block.ts';
+import Block, { TComponentProps } from '../../../../utils/block';
 import template from './chatMessage.pug';
 
 class ChatMessage extends Block {
-  constructor(props) {
+  constructor(props: TComponentProps) {
     super({
       ...props,
-      isItself: props.user_id === props.currentUserId,
     });
   }
 

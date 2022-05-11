@@ -1,45 +1,48 @@
-import Block from '/src/utils/block.ts';
+import Block, { TComponentProps } from '../../../../utils/block';
 import template from './profile-view.pug';
-import FieldsetInfo from '/src/components/elements/fieldset-info/index.ts';
-import Link from '/src/components/elements/link/index.ts';
-import store from '/src/store/store.ts';
-import AuthController from '/src/controllers/Auth.controller.ts';
-import BackPage from '/src/components/elements/backPage/index.ts';
+import FieldsetInfo from '../../../../components/elements/fieldset-info/index';
+import Link from '../../../../components/elements/link/index';
+import store from '../../../../store/store';
+import AuthController from '../../../../controllers/Auth.controller';
+import BackPage from '../../../../components/elements/backPage/index';
 
+interface TProfileProps extends TComponentProps{
+  currentUser: any
+}
 class ProfileViewPage extends Block {
-  constructor(props) {
+  constructor(props: TProfileProps) {
     super(props);
     AuthController.getUser();
   }
 
   initChildren() {
-    const propsFieldsetInfo: [{
+    const propsFieldsetInfo: {
       label: string,
-      data: string
-    }] = [
+      data: string | null
+    }[] = [
       {
         label: 'Почта',
-        data: store.state?.currentUser?.email || null,
+        data: (store.getState())?.currentUser?.email || null,
       },
       {
         label: 'Логин',
-        data: store.state?.currentUser?.login || null,
+        data: (store.getState())?.currentUser?.login || null,
       },
       {
         label: 'Имя',
-        data: store.state?.currentUser?.first_name,
+        data: (store.getState())?.currentUser?.first_name || null,
       },
       {
         label: 'Фамилия',
-        data: store.state?.currentUser?.second_name,
+        data: (store.getState())?.currentUser?.second_name || null,
       },
       {
         label: 'Имя в чате',
-        data: store.state?.currentUser?.display_name,
+        data: (store.getState())?.currentUser?.display_name || null,
       },
       {
         label: 'Телефон',
-        data: store.state?.currentUser?.phone,
+        data: (store.getState())?.currentUser?.phone || null,
       },
     ];
     this.children.fieldsets = this.createBlocks(propsFieldsetInfo, FieldsetInfo);
@@ -58,7 +61,9 @@ class ProfileViewPage extends Block {
 
   render() {
     return this.compile(template, {
-      userName: `${store.state.currentUser?.first_name} ${store.state.currentUser?.second_name}`,
+      userName: `${
+        (store.getState())?.currentUser?.first_name} 
+        ${(store.getState())?.currentUser?.second_name}`,
       linkBack: '/messenger',
     });
   }

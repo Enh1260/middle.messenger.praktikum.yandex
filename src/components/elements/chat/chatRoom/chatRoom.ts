@@ -1,58 +1,56 @@
-import Block from '/src/utils/block.ts';
+import Block from '../../../../utils/block';
 import template from './chatRoom.pug';
-import Button from '/src/components/elements/button/button.ts';
-import ChatsController from '/src/controllers/Chats.controller.ts';
-import Popup from '/src/components/elements/popup/index.ts';
-import Form from '/src/components/elements/form/index.ts';
-import Input from '/src/components/elements/input/input.ts';
-import ChatWindow from '/src/components/elements/chat/chatWindow/index.ts';
-import SocketChat from '/src/utils/socketChat.ts';
-import store from '/src/store/store.ts';
+import Button from '../../../../components/elements/button/button';
+import ChatsController from '../../../../controllers/Chats.controller';
+import Popup from '../../../../components/elements/popup/index';
+import Form from '../../../../components/elements/form/index';
+import ChatWindow from '../../../../components/elements/chat/chatWindow/index';
+import store from '../../../../store/store';
+import ChatAddUser from '../chatAddUser/index';
+import ChatDeleteUser from '../chatDeleteUser/index';
 
-const searchInputProps = {
-  className: 'auth-form__input',
-  name: 'users',
-  placeholder: 'ID пользователя',
-};
 const btnAddUserProps: {
   type: string,
   className: string,
-  events: Record<string, (string) => void>
+  textBtn: string,
+  events: Record<string, () => void>
 } = {
   type: 'button',
   textBtn: 'Добавить пользователя',
   className: 'chat__menu-btn',
   events: {
     click() {
-      this.eventBus().emit('openPopup', 'popupAddUser');
+      this.eventBus.emit('openPopup', 'popupAddUser');
     },
   },
 };
 const btnDeleteUserProps: {
   type: string,
   className: string,
-  events: Record<string, (string) => void>
+  textBtn: string,
+  events: Record<string, () => void>
 } = {
   type: 'button',
   textBtn: 'Удалить пользователя',
   className: 'chat__menu-btn',
   events: {
     click() {
-      this.eventBus().emit('openPopup', 'popupDeleteUser');
+      this.eventBus.emit('openPopup', 'popupDeleteUser');
     },
   },
 };
 const btnDeleteChatProps: {
   type: string,
   className: string,
-  events: Record<string, (string) => void>
+  textBtn: string,
+  events: Record<string, () => void>
 } = {
   type: 'button',
   textBtn: 'Удалить чат',
   className: 'chat__menu-btn',
   events: {
     click() {
-      this.eventBus().emit('openPopup', 'popupDeleteChat');
+      this.eventBus.emit('openPopup', 'popupDeleteChat');
     },
   },
 };
@@ -60,90 +58,49 @@ const btnDeleteChatProps: {
 const btnSubmitProps: {
   type: string,
   className: string,
-  events: Record<string, (string) => void>
+  events: Record<string, (event: any) => void>
 } = {
   type: 'submit',
   className: 'chat-room__submit',
   events: {
-    click: (event) => {
+    click: (event: any) => {
       event.preventDefault();
-      const message = document.querySelector('[name=message]').value;
+      const messageInput = document.querySelector('[name=message]') as HTMLInputElement;
+      const message = messageInput.value;
       if (message.length > 0) {
-        SocketChat.send(message);
+        ChatsController.sendMessage(message);
+        messageInput.value = '';
       }
     },
   },
 };
 
 class ChatRoom extends Block {
-  openPopup(popupComponentName) {
-    this.children[popupComponentName].show();
+  openPopup(popupComponentName: string) {
+    (this.children[popupComponentName] as Block).show();
+  }
+
+  componentDidMount() {
+    this.children.chatWindow = new ChatWindow({});
   }
 
   initChildren() {
     if (this.props.currentChat) {
-      this.children.chatWindow = new ChatWindow();
-      this.children.btnAddUser = new Button(btnAddUserProps);
-      this.children.btnAddUser.eventBus().on('openPopup', this.openPopup.bind(this));
+      this.children.btnAddUser = new Button(btnAddUserProps) as Block;
+      this.children.btnAddUser.eventBus.on('openPopup', this.openPopup.bind(this));
       this.children.btnDeleteUser = new Button(btnDeleteUserProps);
-      this.children.btnDeleteUser.eventBus().on('openPopup', this.openPopup.bind(this));
+      this.children.btnDeleteUser.eventBus.on('openPopup', this.openPopup.bind(this));
       this.children.btnDeleteChat = new Button(btnDeleteChatProps);
-      this.children.btnDeleteChat.eventBus().on('openPopup', this.openPopup.bind(this));
+      this.children.btnDeleteChat.eventBus.on('openPopup', this.openPopup.bind(this));
       this.children.btnSubmit = new Button(btnSubmitProps);
-      this.children.btnSubmit.eventBus().on('send-message');
       this.children.popupAddUser = new Popup({
         title: 'Добавить пользователя',
-        content: new Form({
-          currentChat: this.props.currentChat,
-          className: 'search_user__form',
-          btnSubmit: {
-            className: 'default-button',
-            textBtn: 'Добавить пользователя',
-          },
-          contentProps: [
-            {
-              component: Input,
-              props: searchInputProps,
-            },
-          ],
-          events: {
-            submit(event) {
-              event.preventDefault();
-              const data = this.getFormData();
-
-              ChatsController.addUsers(JSON.stringify({
-                users: [data.users],
-                chatId: this.props.currentChat.id,
-              }));
-            },
-          },
-        }),
+        content: new ChatAddUser({ chatId: this.props.currentChat.id }),
       });
       this.children.popupDeleteUser = new Popup({
         title: 'Удалить пользователя',
-        content: new Form({
+        content: new ChatDeleteUser({
           currentChat: this.props.currentChat,
-          className: 'search_user__form',
-          btnSubmit: {
-            className: 'default-button',
-            textBtn: 'Удалить пользователя',
-          },
-          contentProps: [
-            {
-              component: Input,
-              props: searchInputProps,
-            },
-          ],
-          events: {
-            submit(event) {
-              event.preventDefault();
-              const data = this.getFormData();
-              ChatsController.deleteUsers(JSON.stringify({
-                users: [data.users],
-                chatId: this.props.currentChat.id,
-              }));
-            },
-          },
         }),
       });
       this.children.popupDeleteChat = new Popup({
@@ -156,13 +113,14 @@ class ChatRoom extends Block {
             textBtn: 'Удалить чат',
           },
           events: {
-            async submit(event) {
+            async submit(event: any) {
               event.preventDefault();
-              await ChatsController.deleteChat(JSON.stringify({
+              await ChatsController.deleteChat({
                 chatId: this.props.currentChat.id,
-              }));
+              });
               ChatsController.requestAll();
               store.set('currentChat', null);
+              this.eventBus.emit('hidePopup');
             },
           },
         }),

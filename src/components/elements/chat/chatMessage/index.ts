@@ -1,4 +1,4 @@
-import ChatMessage from './chatMessage.ts';
+import ChatMessage from './chatMessage';
 import './chatMessage.scss';
 
 export default ChatMessage;

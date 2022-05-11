@@ -1,4 +1,4 @@
-import HTTPTransport from '/src/utils/HTTPTransport.ts';
+import HTTPTransport from '../utils/HTTPTransport';
 
 export interface UserPostData{
   login: string;
@@ -19,6 +19,8 @@ export interface UserSearchPostData{
 }
 
 class UserApi {
+  protected apiInstance: HTTPTransport;
+
   constructor() {
     this.apiInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2/user');
   }
@@ -31,7 +33,7 @@ class UserApi {
     return this.apiInstance.put('/password', { data: postData });
   }
 
-  public async updateAvatar(postData: Blob) {
+  public async updateAvatar(postData: FormData) {
     return this.apiInstance.put('/profile/avatar', {
       data: postData,
       headers: ['content-type', 'multipart/form-data'],

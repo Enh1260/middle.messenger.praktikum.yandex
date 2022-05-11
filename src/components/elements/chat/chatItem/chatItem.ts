@@ -1,11 +1,9 @@
-import Block from '/src/utils/block.ts';
+import Block, { TComponentProps } from '../../../../utils/block';
 import template from './chatItem.pug';
-import ChatsController from '/src/controllers/Chats.controller.ts';
-import SocketChat from '/src/utils/socketChat.ts';
-import store from '/src/store/store.ts';
+import ChatsController from '../../../../controllers/Chats.controller';
 
 class ChatItem extends Block {
-  constructor(props) {
+  constructor(props: TComponentProps) {
     super({
       ...props,
       events: {
@@ -17,15 +15,10 @@ class ChatItem extends Block {
     });
   }
 
-  async openChat(): void {
-    const tokenData = await ChatsController.requestToken(this.props.id);
-
-    SocketChat.connect({
-      userId: this.props.userId,
-      chatId: this.props.id,
-      token: tokenData.token,
-    });
-    store.set('currentChat', this.props);
+  async openChat(): Promise<void> {
+    await ChatsController.open(this.props.id);
+    const newStateProps = { ...this.props };
+    ChatsController.setCurrentChat(newStateProps);
   }
 
   render() {

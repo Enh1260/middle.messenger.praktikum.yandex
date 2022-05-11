@@ -1,4 +1,5 @@
-import HTTPTransport from '/src/utils/HTTPTransport.ts';
+import HTTPTransport from '../utils/HTTPTransport';
+import { TUser } from '../types/user.type';
 
 export interface ChatsPostData{
   title: string;
@@ -18,11 +19,7 @@ export interface ChatsGetPostData{
   title?: string;
 }
 
-export interface ChatsGetTokenPostData{
-  id: number;
-}
-
-export interface ChatsGetResponce {
+export interface ChatsGetResponce extends Promise<Response>{
   id: number;
   title: string;
   avatar: string;
@@ -34,14 +31,14 @@ export interface ChatsGetResponce {
       avatar: string;
       email: string;
       login: string;
-      phone: strin;
+      phone: string;
     },
     time: string;
     content: string;
   }
 }
 
-interface DeleteChatResponce{
+interface DeleteChatResponce extends Promise<Response>{
   userId: number;
   result: {
     id: number;
@@ -50,28 +47,34 @@ interface DeleteChatResponce{
   }
 }
 
-export interface GetTokenResponce {
+export interface GetTokenResponce extends Promise<Response>{
     token: string;
 }
 
 class ChatsApi {
+  protected apiInstance: HTTPTransport;
+
   constructor() {
     this.apiInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2/chats');
   }
 
-  public async create(postData: ChatsPostData): Promise<string> {
+  public async create(postData: ChatsPostData): Promise<Response> {
     return this.apiInstance.post('/', { data: postData });
   }
 
-  public async request(postData: ChatsGetPostData | null): Promise<ChatsGetResponce[]> {
+  public async request(postData: ChatsGetPostData | null = {}): Promise<ChatsGetResponce> {
     return this.apiInstance.get('/', { data: postData });
   }
 
-  public async addUsers(postData: ChatsUsersPostData): Promise<string> {
+  public async getUsers(chatId: number): Promise<TUser[]> {
+    return this.apiInstance.get(`/${chatId}/users`);
+  }
+
+  public async addUsers(postData: ChatsUsersPostData): Promise<Response> {
     return this.apiInstance.put('/users', { data: postData });
   }
 
-  public async deleteUsers(postData: ChatsUsersPostData): Promise<string> {
+  public async deleteUsers(postData: ChatsUsersPostData): Promise<Response> {
     return this.apiInstance.delete('/users', { data: postData });
   }
 
@@ -79,9 +82,9 @@ class ChatsApi {
     return this.apiInstance.delete('/', { data: postData });
   }
 
-  public async requestToken(postData: ChatsGetTokenPostData): Promise<GetTokenResponce[]> {
+  public async requestToken(postData: number/* ChatsGetTokenPostData */): Promise<string> {
     const token = await this.apiInstance.post(`/token/${postData}`)
-      .then((data) => data.response);
+      .then((data: GetTokenResponce) => data.token);
     return token;
   }
 }

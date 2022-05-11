@@ -1,13 +1,13 @@
-import ProtectRouter from './protectRouter.ts';
-import HomePage from '/src/components/templates/home/index.ts';
-import LoginPage from '/src/components/templates/login/index.ts';
-import RegistrationPage from '/src/components/templates/registration/index.ts';
-import ChatPage from '/src/components/templates/chat/index.ts';
-import ProfileViewPage from '/src/components/templates/profile/profile-view/index.ts';
-import ProfileEditPage from '/src/components/templates/profile/profile-edit/index.ts';
-import PasswordEditPage from '/src/components/templates/profile/password-edit/index.ts';
-import Page404 from '/src/components/templates/404/index.ts';
-import Page500 from '/src/components/templates/500/index.ts';
+import ProtectRouter from './protectRouter';
+import HomePage from '../components/templates/home/index';
+import LoginPage from '../components/templates/login/index';
+import RegistrationPage from '../components/templates/registration/index';
+import ChatPage from '../components/templates/chat/index';
+import ProfileViewPage from '../components/templates/profile/profile-view/index';
+import ProfileEditPage from '../components/templates/profile/profile-edit/index';
+import PasswordEditPage from '../components/templates/profile/password-edit/index';
+import Page404 from '../components/templates/404/index';
+import Page500 from '../components/templates/500/index';
 
 const router = new ProtectRouter('#app');
 

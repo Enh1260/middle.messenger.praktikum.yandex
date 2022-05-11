@@ -1,6 +1,6 @@
 import template from './home.pug';
-import Block from '/src/utils/block.ts';
-import Link from '/src/components/elements/link/index.ts';
+import Block from '../../../utils/block';
+import Link from '../../../components/elements/link/index';
 
 class HomePage extends Block {
   initChildren() {
@@ -17,6 +17,7 @@ class HomePage extends Block {
   }
 
   render() {
+    console.log(this);
     return this.compile(template, {});
   }
 }

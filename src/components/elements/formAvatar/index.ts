@@ -1,3 +1,3 @@
-import FormAvatar from './formAvatar.ts';
+import FormAvatar from './formAvatar';
 
 export { FormAvatar as default };

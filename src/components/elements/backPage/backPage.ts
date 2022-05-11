@@ -1,7 +1,7 @@
-import Block from '/src/utils/block.ts';
+import Block from '../../../utils/block';
 import template from './backPage.pug';
-import Button from '/src/components/elements/button/index.ts';
-import router from '/src/router/index.ts';
+import Button from '../../../components/elements/button/index';
+import router from '../../../router/index';
 
 class BackPage extends Block {
   initChildren() {

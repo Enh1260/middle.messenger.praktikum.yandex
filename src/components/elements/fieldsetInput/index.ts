@@ -1,5 +1,5 @@
 import './fieldsetInput.scss';
 
-import FieldsetInput from './fieldsetInput.ts';
+import FieldsetInput from './fieldsetInput';
 
 export { FieldsetInput as default };
