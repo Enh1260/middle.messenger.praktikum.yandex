@@ -5,11 +5,9 @@
 https://www.figma.com/file/j6k3djL1EfeSs7aVAkSp2Q/Module_1(Chat)?node-id=0%3A1
 <br>
 
-<h5>Домен в Netlify</h5>
-https://luminous-moonbeam-55e175.netlify.app/
+<h5>Домен в Heroku</h5>
+https://prachat.herokuapp.com/
 <br>
-<h5>Ссылка на открытый pull request Sprint 3</h5>
-https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/13#issue-1190772695
 
 <h5>Реализованные страницы:</h5>
 
@@ -26,6 +24,9 @@ https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/13#issue-11907
 <br>
 <h5>Добавлено в проект</h5>
 <ul>
+  <li>проект переведен на сборщик Webpack</li>
+  <li>добавлен pre-commit</li>
+  <li>добавлен Dockerfile</li>
   <li>реализован класс для работы с запросами</li>
   <li>проект разбит на компоненты</li>
   <li>добавлена валидация форм</li>
@@ -36,7 +37,7 @@ https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/13#issue-11907
 </ul>
 
 <h5>Команды в проекте:</h5>
-  "npm run watch" - запуск сервера бандлера Parcel для разработки<br>
+  "npm run dev" - запуск Webpack для разработки<br>
   "npm run start" - запуск node.js express для раздачи статики<br>
   "npm run build" - сборка проекта<br>
   "npm run test" - запуск тестов проекта<br>
