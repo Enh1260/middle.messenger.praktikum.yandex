@@ -8,8 +8,8 @@ https://www.figma.com/file/j6k3djL1EfeSs7aVAkSp2Q/Module_1(Chat)?node-id=0%3A1
 <h5>Домен в Netlify</h5>
 https://luminous-moonbeam-55e175.netlify.app/
 <br>
-<h5>Ссылка на открытый pull request Sprint 3</h5>
-https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/13#issue-1190772695
+<h5>Ссылка на открытый pull request Sprint 4</h5>
+https://github.com/Enh1260/middle.messenger.praktikum.yandex/pull/14#issue-1233095453
 
 <h5>Реализованные страницы:</h5>
 
